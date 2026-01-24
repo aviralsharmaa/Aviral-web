@@ -8,12 +8,16 @@ const projects = [
     slug: "ai-email-agent-autonomous-outreach-system",
     description:
       "An intelligent AI agent that converts natural language instructions into fully automated email actions. The system understands user intent (e.g., \"Send my resume to Microsoft\"), identifies relevant company domains, discovers official contacts, composes personalized emails, attaches documents, and sends them securely using Gmail API. The agent uses NLP-based intent parsing, domain intelligence, and tool orchestration to perform multi-step reasoning: extracting entities, validating recipients, generating content, invoking external APIs, and tracking delivery. It features both a command-line interface and a Streamlit web dashboard with real-time progress, error handling, rate-limit management, and detailed delivery analytics (CSV/Excel logs). This project demonstrates end-to-end agent design: perception, planning, action, verification, and memory.",
+    github: "https://github.com/aviralsharmaa/AI-Agent-Job",
+    demo: "https://ai-agent-job.streamlit.app/",
   },
   {
     title: "Autonomous Financial Analysis & Trading Agent",
     slug: "autonomous-financial-analysis-trading-agent",
     description:
       "A utility-based, self-learning trading agent built using LangGraph that autonomously observes market data, reasons with LLMs, simulates strategies, executes trades, and improves over time. The agent operates as a multi-node stateful workflow: market data ingestion → LLM-based analysis → strategy synthesis → historical backtesting → paper trade execution → performance evaluation → feedback-driven strategy refinement. It integrates multiple LLM providers (OpenAI, Ollama, Groq, HuggingFace), supports real-time and historical OHLCV data via Alpaca and yFinance, and maintains persistent agent state for memory and learning. The system follows a full agent loop with risk-aware decision making, portfolio optimization, and production-grade logging. This project showcases practical Agentic AI, tool-calling, and autonomous decision pipelines in finance.",
+    github: "https://github.com/aviralsharmaa/Trading_agent",
+    demo: "https://trading-agent-ai.streamlit.app/",
   },
   {
     title: "AI Research Agent – Semantic Document Intelligence Platform",
@@ -47,14 +51,36 @@ export default function Projects() {
                 <h3 className="text-xl font-semibold text-white">
                   {project.title}
                 </h3>
-                {project.slug && (
-                  <Link
-                    href={`/blog/${project.slug}`}
-                    className="text-white/60 hover:text-white text-sm transition-colors"
-                  >
-                    Read Blog →
-                  </Link>
-                )}
+                <div className="flex items-center gap-4">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/60 hover:text-white text-sm transition-colors"
+                    >
+                      GitHub
+                    </a>
+                  )}
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/60 hover:text-white text-sm transition-colors"
+                    >
+                      Demo
+                    </a>
+                  )}
+                  {project.slug && (
+                    <Link
+                      href={`/blog/${project.slug}`}
+                      className="text-white/60 hover:text-white text-sm transition-colors"
+                    >
+                      Read Blog →
+                    </Link>
+                  )}
+                </div>
               </div>
               <p className="text-white/80 leading-relaxed">
                 {project.description}

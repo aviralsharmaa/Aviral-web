@@ -1164,7 +1164,49 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             {post.title}
           </h1>
-          <p className="text-white/60 text-sm mb-8">{post.date}</p>
+          <p className="text-white/60 text-sm mb-4">{post.date}</p>
+          
+          {params.slug === "ai-email-agent-autonomous-outreach-system" && (
+            <div className="flex items-center gap-4 mb-8">
+              <a
+                href="https://github.com/aviralsharmaa/AI-Agent-Job"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                View on GitHub
+              </a>
+              <a
+                href="https://ai-agent-job.streamlit.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                Live Demo
+              </a>
+            </div>
+          )}
+          
+          {params.slug === "autonomous-financial-analysis-trading-agent" && (
+            <div className="flex items-center gap-4 mb-8">
+              <a
+                href="https://github.com/aviralsharmaa/Trading_agent"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                View on GitHub
+              </a>
+              <a
+                href="https://trading-agent-ai.streamlit.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                Live Demo
+              </a>
+            </div>
+          )}
           
           {post.image && (
             <div className="mb-12">
