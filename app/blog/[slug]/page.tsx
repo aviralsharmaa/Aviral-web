@@ -14,7 +14,7 @@ const blogPosts: Record<string, {
   "ai-email-agent-autonomous-outreach-system": {
     title: "AI Email Agent – Autonomous Outreach System",
     projectTitle: "AI Email Agent – Autonomous Outreach System",
-    date: "2024",
+    date: "2025",
     image: "/job-mailer.png",
     content: `
 # AI Email Agent – Autonomous Outreach System
@@ -170,7 +170,7 @@ This AI Email Agent project demonstrates end-to-end agent design: perception, pl
   "autonomous-financial-analysis-trading-agent": {
     title: "Autonomous Financial Analysis & Trading Agent",
     projectTitle: "Autonomous Financial Analysis & Trading Agent",
-    date: "2024",
+    date: "2025",
     image: "/finance.png",
     content: `
 # Financial Analysis & Trading Agent - Comprehensive Guide
@@ -592,7 +592,7 @@ The project is fully functional and can be extended with additional features as 
   "ai-research-agent-semantic-document-intelligence": {
     title: "AI Research Agent – Semantic Document Intelligence Platform",
     projectTitle: "AI Research Agent – Semantic Document Intelligence Platform",
-    date: "2024",
+    date: "2025",
     image: "/Ai resreach.png",
     content: `
 # AI Research Agent - Complete Blog Post
