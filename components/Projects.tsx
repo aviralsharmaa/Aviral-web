@@ -24,6 +24,8 @@ const projects = [
     slug: "ai-research-agent-semantic-document-intelligence",
     description:
       "A Retrieval-Augmented Generation (RAG) system that transforms research papers into an interactive, queryable knowledge base. The platform ingests PDFs, segments and embeds them using Sentence Transformers, stores vectors in FAISS, and enables semantic search and reasoning with LLMs. Users can upload papers, ask natural language questions, compare methodologies, generate summaries, and receive source-grounded answers through a Streamlit interface. The backend uses LangChain and LangGraph to orchestrate retrieval, ranking, reasoning, and citation generation in a stateful agent workflow. The system includes persistent vector memory, multi-model LLM support, modular pipelines, and production-ready fallback mechanisms, making it suitable for large-scale research analysis and enterprise document intelligence.",
+    github: "https://github.com/aviralsharmaa/AI_research_agent",
+    demo: "https://research-agent-ai.streamlit.app/",
   },
   {
     title: "Vision-Based Anti-Counterfeiting & MLOps Platform (OneARVO)",

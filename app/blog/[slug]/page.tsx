@@ -595,548 +595,1005 @@ The project is fully functional and can be extended with additional features as 
     date: "2025",
     image: "/Ai resreach.png",
     content: `
-# AI Research Agent - Complete Blog Post
+# Building an AI Research Analyzer: A Deep Dive into LangChain, LangGraph, and Groq Integration
 
-## Building an Intelligent Document Analysis System for Research Papers
+## Introduction
 
-## Introduction & Project Overview
+In the age of information overload, researchers and academics face a significant challenge: sifting through hundreds of research papers to find the ones most relevant to their work. Manual review is time-consuming, error-prone, and often overwhelming. This is where AI comes to the rescue.
 
-### What Is This Project?
+In this comprehensive blog post, we'll explore how to build an **AI Research Analyzer** - an intelligent system that uses Large Language Models (LLMs) to automatically evaluate research papers against user queries. We'll dive deep into the architecture, technologies, and code implementation, showing you exactly how this powerful tool works under the hood.
 
-The AI Research Agent is an intelligent document analysis system specifically designed for analyzing research papers on cryptoglyph identification, pattern detection, and counterfeiting detection. It combines modern AI technologies including:
+## The Problem
 
-- Vector Search: Semantic search using embeddings and vector databases
-- Large Language Models (LLMs): For generating insights and answers
-- Document Processing: PDF parsing and intelligent chunking
-- Web Interface: User-friendly Streamlit-based UI
+Imagine you're working on a research project about "machine learning applications in healthcare." You have a collection of 50 PDF research papers, and you need to identify which ones are actually relevant to your topic. Traditional approaches would require:
 
-### Problem It Solves
+- Reading through each paper manually
 
-Researchers often struggle with:
+- Identifying key concepts and themes
 
-- Managing and analyzing multiple research papers
-- Finding relevant information across documents
-- Comparing methodologies from different papers
-- Extracting key insights and recommendations
-- Understanding complex relationships between papers
+- Comparing them against your research query
 
-This system automates these tasks using AI, making research more efficient and productive.
+- Making subjective judgments about relevance
 
-### Key Features
+This process could take days or weeks. Our AI Research Analyzer can do this in minutes, providing detailed analysis and match evaluations for each paper.
 
-✓ Upload and process PDF research papers
-✓ Semantic search across all papers
-✓ Interactive Q&A interface
-✓ Comparative analysis of methodologies
-✓ Automated summarization
-✓ Source citation and tracking
-✓ Beautiful web-based interface
+## The Solution: AI-Powered Research Analysis
 
-![System Architecture](/Ai resreach 2.png)
+Our solution leverages the power of:
 
-## Project Requirements & Why We Need Each Component
+- **LangChain** - For building LLM applications
 
-### Python Version: 3.10+
+- **LangGraph** - For orchestrating complex AI workflows
 
-**WHY:** Modern Python features, better async support, and compatibility with latest libraries. Python 3.14 has compatibility issues with some packages (like ChromaDB), so 3.10-3.12 is recommended.
+- **Groq API** - For ultra-fast LLM inference
 
-### Core Libraries & Their Purpose
+- **Streamlit** - For an intuitive web interface
 
-**1. LANGCHAIN (0.3.7)**
+The system takes user queries and PDF files as input, processes them through an intelligent pipeline, and returns comprehensive analysis results.
 
-**WHY:**
-- Provides unified framework for working with LLMs
-- Handles document processing, vector stores, and chains
-- Abstracts complexity of different LLM providers
-- Enables easy switching between models
+## Architecture Overview
 
-**WHAT IT DOES:**
-- Document loading and processing
-- Vector store abstractions
-- LLM integrations
-- Chain creation for complex workflows
+\`\`\`
+┌─────────────────────────────────────────────────────────────┐
+│                        User Interface                         │
+│                      (Streamlit Web App)                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
+│  │ Query Input  │  │ PDF Upload  │  │ Results Display   │   │
+│  └──────┬───────┘  └──────┬───────┘  └─────────┬────────┘   │
+└─────────┼──────────────────┼────────────────────┼────────────┘
+          │                  │                    │
+          ▼                  ▼                    │
+┌─────────────────────────────────────────────────┼────────────┐
+│              PDF Processing Layer                │            │
+│  ┌──────────────────────────────────────────┐  │            │
+│  │  Extract text from PDFs using PyPDF       │  │            │
+│  │  Structure data with file names           │  │            │
+│  └──────────────────┬───────────────────────┘  │            │
+└─────────────────────┼───────────────────────────┘            │
+                      │                                          │
+                      ▼                                          │
+┌───────────────────────────────────────────────────────────────┐
+│              LangGraph Workflow Orchestration                  │
+│  ┌──────────────────────┐      ┌──────────────────────┐     │
+│  │  Node 1: Analyze     │ ───► │  Node 2: Evaluate    │     │
+│  │  Individual Papers   │      │  Matches & Summary   │     │
+│  └──────────────────────┘      └──────────────────────┘     │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌───────────────────────────────────────────────────────────────┐
+│                    Groq LLM API (Llama 3.3)                   │
+│              Fast inference for analysis                      │
+└───────────────────────────────────────────────────────────────┘
+\`\`\`
 
-**2. LANGCHAIN-COMMUNITY (0.3.7)**
+## Technology Stack Deep Dive
 
-**WHY:**
-- Community integrations for various services
-- Provides HuggingFace, ChromaDB, FAISS integrations
-- Extends LangChain with additional functionality
+### 1. **Python 3.13**
 
-**WHAT IT DOES:**
-- Connects to HuggingFace models
-- Integrates vector databases
-- Provides document loaders (PDF, etc.)
+Our foundation. Python provides excellent libraries for AI/ML, web development, and PDF processing.
 
-**3. FAISS-CPU (>=1.13.0)**
+### 2. **Streamlit** - Web Interface Framework
 
-**WHY:**
-- Fast similarity search for vectors
-- Works offline, no external services needed
-- Better Python 3.14 compatibility than ChromaDB
-- Efficient for local development
+Streamlit is a Python framework that makes it incredibly easy to build interactive web applications. It's perfect for data science and AI applications.
 
-**WHAT IT DOES:**
-- Stores document embeddings as vectors
-- Performs fast similarity search
-- Enables semantic document retrieval
+**Key Features:**
 
-**4. SENTENCE-TRANSFORMERS (3.3.1)**
+- No HTML/CSS/JavaScript required
 
-**WHY:**
-- Specialized library for generating embeddings
-- Optimized models for semantic similarity
-- Better than general transformers for embeddings
+- Built-in widgets (file uploaders, text inputs, buttons)
 
-**WHAT IT DOES:**
-- Converts text to vector embeddings
-- Uses models like all-MiniLM-L6-v2
-- Generates 384-dimensional vectors for semantic search
+- Automatic reactive updates
 
-**5. STREAMLIT (1.40.2)**
+- Session state management
 
-**WHY:**
-- Simplest way to create web interfaces in Python
-- No HTML/CSS/JavaScript needed
-- Built-in components for data apps
-- Perfect for AI demos
+### 3. **LangChain** - LLM Application Framework
 
-**WHAT IT DOES:**
-- Creates web interface
-- Handles user interactions
-- Displays results beautifully
-- Manages session state
+LangChain is a framework for developing applications powered by language models. It provides:
 
-## System Architecture & Design Decisions
+- **Abstraction layer** for working with different LLM providers
 
-### High-Level Architecture
+- **Prompt templates** for consistent, reusable prompts
 
-The system follows a layered architecture:
+- **Chain composition** for complex workflows
 
-**STREAMLIT WEB INTERFACE** (User Interaction Layer)
-- Chat Tab
-- Analysis Tab
-- Paper Browser
+- **Memory management** for conversational applications
 
-**RESEARCH AGENT LAYER** (Business Logic & AI Processing)
-- Query Processing
-- LLM Integration (HuggingFace/GPT-2)
-- Analysis Methods (summarize, compare, recommend)
+### 4. **LangGraph** - Workflow Orchestration
 
-**VECTOR STORE LAYER** (Semantic Search & Retrieval)
-- FAISS / ChromaDB Vector Database
-- Embedding Generation (HuggingFace)
-- Similarity Search
-- Document Indexing
+LangGraph extends LangChain with graph-based workflow capabilities:
 
-**DOCUMENT PROCESSING LAYER** (PDF Loading & Text Extraction)
-- PDF Loading (PyPDFLoader)
-- Document Chunking
-- Metadata Extraction
+- **State management** - Maintains state across workflow steps
 
-**DATA STORAGE**
-- papers/ (PDF files)
-- chroma_db/ (vector DB)
-- data/ (optional)
+- **Node-based architecture** - Each node performs a specific task
 
-### Design Decisions & Why
+- **Conditional routing** - Dynamic workflow paths based on conditions
 
-**1. MODULAR ARCHITECTURE**
+- **Error handling** - Built-in error recovery mechanisms
 
-**WHY:** Separates concerns, makes testing easier, allows independent updates
+### 5. **Groq API** - Ultra-Fast LLM Inference
 
-**HOW:** Each component (document loader, vector store, agent) is in separate modules
+Groq provides lightning-fast inference for LLMs:
 
-**2. FALLBACK STRATEGY**
+- **Hardware acceleration** - Custom inference chips
+
+- **Multiple model support** - Llama, Mixtral, Gemma
 
-**WHY:** Ensures system works even if some components fail
+- **Low latency** - Sub-second response times
 
-**HOW:**
-- ChromaDB → FAISS fallback
-- Cloud LLM → Local GPT-2 fallback
-- LLM → Vector search only fallback
+- **Cost-effective** - Pay-per-use pricing
 
-**3. PERSISTENT STORAGE**
+### 6. **PyPDF** - PDF Processing
 
-**WHY:** Don't want to re-index papers every time
+PyPDF is a pure Python library for PDF manipulation:
 
-**HOW:** Vector database persists to disk (chroma_db/ directory)
+- **Text extraction** - Extracts text from PDF files
 
-**4. EMBEDDING-BASED SEARCH**
+- **Page-by-page processing** - Handles large documents
 
-**WHY:** Better than keyword search for semantic understanding
+- **Metadata access** - Retrieves document information
 
-**HOW:** Converts text to vectors, finds similar vectors
+## Code Walkthrough
 
-## Complete Code Walkthrough - File by File
+Let's examine each component of our system in detail.
 
-### File 1: config.py
+### Component 1: PDF Processor (\`pdf_processor.py\`)
 
-**LOCATION:** Root directory
+The PDF processor is responsible for extracting text content from uploaded PDF files.
 
-**PURPOSE:** Centralized configuration management
+\`\`\`python
+from typing import List
+import pypdf
+from io import BytesIO
 
-**KEY FEATURES:**
-- Loads environment variables from .env file
-- Defines all directory paths
-- Creates directories automatically
-- Configurable model and collection names
+class PDFProcessor:
+    """Processes PDF files and extracts text content"""
+    
+    def extract_text_from_pdf(self, pdf_file: BytesIO) -> str:
+        """
+        Extract text from a single PDF file
+        
+        This method uses PyPDF's PdfReader to parse the PDF
+        and extract text from each page.
+        """
+        try:
+            pdf_reader = pypdf.PdfReader(pdf_file)
+            text = ""
+            
+            # Iterate through each page
+            for page_num, page in enumerate(pdf_reader.pages):
+                page_text = page.extract_text()
+                # Add page markers for better context
+                text += f"\\n--- Page {page_num + 1} ---\\n"
+                text += page_text
+                text += "\\n"
+            
+            return text
+        except Exception as e:
+            raise Exception(f"Error extracting text from PDF: {str(e)}")
+\`\`\`
 
-### File 2: utils/document_loader.py
+**Key Points:**
 
-**LOCATION:** utils/document_loader.py
+- Uses \`BytesIO\` to handle in-memory PDF data (no file system writes)
 
-**PURPOSE:** Load and process PDF files
+- Processes pages sequentially to maintain document structure
 
-**EXECUTION FLOW:**
-1. User uploads PDF → saved to papers/ directory
-2. load_pdf() called with file path
-3. PyPDFLoader extracts text from each page
-4. Returns list of Document objects (one per page)
+- Adds page markers to preserve context
 
-**KEY METHODS:**
-- \`load_pdf()\`: Loads single PDF file
-- \`load_all_papers()\`: Processes all PDFs in directory
-- \`get_paper_info()\`: Quick preview without full loading
+- Error handling ensures one bad PDF doesn't crash the entire process
 
-### File 3: utils/vector_store.py
+\`\`\`python
+def process_multiple_pdfs(self, pdf_files: List[BytesIO], file_names: List[str] = None) -> List[dict]:
+    """
+    Process multiple PDF files and return structured data
+    
+    This method handles batch processing of PDFs, maintaining
+    file names and metadata for later reference.
+    """
+    processed_pdfs = []
+    
+    for idx, pdf_file in enumerate(pdf_files):
+        # Use provided file name or generate default
+        file_name = file_names[idx] if file_names and idx < len(file_names) else f"Paper {idx + 1}"
+        
+        try:
+            text = self.extract_text_from_pdf(pdf_file)
+            processed_pdfs.append({
+                "index": idx,           # For ordering
+                "name": file_name,      # Original filename
+                "text": text,           # Extracted content
+                "length": len(text)     # For metadata
+            })
+        except Exception as e:
+            # Graceful error handling
+            processed_pdfs.append({
+                "index": idx,
+                "name": file_name,
+                "text": "",
+                "error": str(e),
+                "length": 0
+            })
+    
+    return processed_pdfs
+\`\`\`
 
-**LOCATION:** utils/vector_store.py
+**Why This Design?**
 
-**PURPOSE:** Manage vector embeddings and similarity search
+- **Structured output**: Returns dictionaries with consistent keys
 
-**KEY FEATURES:**
-- Graceful fallback: tries ChromaDB, falls back to FAISS
-- Creates embedding model (converts text to vectors)
-- Model: sentence-transformers/all-MiniLM-L6-v2 (384 dimensions)
-- Stores vectors in FAISS/ChromaDB index
+- **Error resilience**: Continues processing even if one PDF fails
 
-**EXECUTION FLOW:**
-1. Receives list of Document objects
-2. Extracts text content and metadata
-3. For each document: converts text to embedding (384 numbers)
-4. Stores embedding + metadata in vector database
-5. Saves to disk for persistence
+- **Metadata preservation**: Keeps file names and indices for display
 
-**SIMILARITY SEARCH:**
-1. User enters query: "What is cryptoglyph identification?"
-2. Query converted to embedding (384 numbers)
-3. Vector database searches for similar vectors
-4. Returns top K (default 5) most similar documents
-5. Each result includes Document object and similarity score
+- **Scalability**: Can handle any number of PDFs
 
-### File 4: agent/research_agent.py
+### Component 2: Research Analyzer (\`research_analyzer.py\`)
 
-**LOCATION:** agent/research_agent.py
+This is the heart of our system - it uses LangGraph to orchestrate the analysis workflow.
 
-**PURPOSE:** Core AI agent for processing queries and generating insights
+#### State Definition
 
-**LLM INITIALIZATION:**
-- Tries HuggingFaceEndpoint (Mistral-7B) if API token available
-- Falls back to local GPT-2 if no API token
-- Creates pipeline for text generation
+\`\`\`python
+from typing_extensions import TypedDict
 
-**MODEL COMPARISON:**
-- **Mistral-7B:** Better quality, requires API, costs money
-- **GPT-2:** Lower quality, free, runs locally, faster
+class ResearchState(TypedDict):
+    """State for the research analysis graph"""
+    query: str                              # User's research query
+    papers: List[Dict[str, Any]]            # Processed PDF data
+    results: List[Dict[str, Any]]           # Individual analyses
+    summary: Optional[str]                  # Final summary
+\`\`\`
+
+**Why TypedDict?**
+
+- Type safety for state management
+
+- Clear contract for what data flows through the graph
+
+- IDE autocomplete support
+
+- Runtime validation
+
+#### Initialization
+
+\`\`\`python
+class ResearchAnalyzer:
+    def __init__(self, groq_api_key: str, model_name: str = "llama-3.3-70b-versatile"):
+        """
+        Initialize the Research Analyzer
+        
+        Sets up the Groq LLM client and builds the LangGraph workflow.
+        """
+        self.llm = ChatGroq(
+            groq_api_key=groq_api_key,
+            model_name=model_name,
+            temperature=0.1  # Low temperature for consistent, focused analysis
+        )
+        self._build_graph()
+\`\`\`
+
+**Temperature Setting:**
+
+- \`0.1\` = More deterministic, focused responses
+
+- Lower values = More consistent analysis
+
+- Higher values = More creative but less reliable
+
+#### Building the LangGraph Workflow
+
+\`\`\`python
+def _build_graph(self):
+    """Build the LangGraph workflow for research analysis"""
+    
+    # Create a state graph with our ResearchState schema
+    workflow = StateGraph(ResearchState)
+    
+    # Add nodes - each node is a function that processes the state
+    workflow.add_node("analyze_papers", self._analyze_papers_node)
+    workflow.add_node("evaluate_matches", self._evaluate_matches_node)
+    
+    # Set the entry point
+    workflow.set_entry_point("analyze_papers")
+    
+    # Define the flow: analyze_papers → evaluate_matches → END
+    workflow.add_edge("analyze_papers", "evaluate_matches")
+    workflow.add_edge("evaluate_matches", END)
+    
+    # Compile the graph into an executable workflow
+    self.graph = workflow.compile()
+\`\`\`
+
+**Graph Structure:**
+
+\`\`\`
+START → analyze_papers → evaluate_matches → END
+\`\`\`
+
+**Why This Flow?**
+
+1. **Sequential processing**: First analyze each paper individually
+
+2. **Then synthesize**: Combine individual analyses into a summary
+
+3. **Clear separation**: Each node has a single responsibility
+
+#### Node 1: Analyze Papers
+
+\`\`\`python
+def _analyze_papers_node(self, state: ResearchState) -> ResearchState:
+    """Analyze each paper individually"""
+    query = state["query"]
+    papers = state["papers"]
+    results = []
+    
+    # Define the analysis prompt template
+    analysis_prompt = ChatPromptTemplate.from_messages([
+        ("system", """You are an expert research paper analyzer. Your task is to analyze research papers 
+        and determine how well they match a given query. Be thorough and precise in your analysis.
+        
+        For each paper, provide:
+        1. A summary of the paper's main content
+        2. Key findings and contributions
+        3. Relevance to the query (on a scale of 0-100)
+        4. Specific sections or findings that match the query
+        5. A clear match verdict (MATCH or NO MATCH)"""),
+        ("human", """Query: {query}
+        
+        Paper Content:
+        
+        {paper_text}
+        
+        Please analyze this paper and provide a detailed evaluation of how well it matches the query.""")
+    ])
+\`\`\`
+
+**Prompt Engineering:**
+
+- **System message**: Sets the AI's role and expectations
+
+- **Structured output**: Requests specific information (summary, relevance score, verdict)
+
+- **Context**: Provides both query and paper content
+
+\`\`\`python
+    for paper in papers:
+        try:
+            # Format the prompt with actual data
+            messages = analysis_prompt.format_messages(
+                query=query,
+                paper_text=paper["text"][:8000]  # Limit to 8000 chars for API
+            )
+            
+            # Invoke the LLM
+            response = self.llm.invoke(messages)
+            
+            # Store results
+            results.append({
+                "paper_index": paper["index"],
+                "paper_name": paper.get("name", f"Paper {paper['index'] + 1}"),
+                "analysis": response.content,
+                "raw_text_length": paper["length"]
+            })
+        except Exception as e:
+            # Error handling per paper
+            results.append({
+                "paper_index": paper["index"],
+                "paper_name": paper.get("name", f"Paper {paper['index'] + 1}"),
+                "error": str(e),
+                "analysis": None
+            })
+    
+    # Update state with results
+    state["results"] = results
+    return state
+\`\`\`
+
+**Key Design Decisions:**
+
+- **Text truncation**: Limits to 8000 characters to avoid token limits
+
+- **Per-paper error handling**: One failure doesn't stop the entire process
+
+- **State mutation**: Updates and returns the state object
+
+#### Node 2: Evaluate Matches
+
+\`\`\`python
+def _evaluate_matches_node(self, state: ResearchState) -> ResearchState:
+    """Final evaluation and summary of matches"""
+    query = state["query"]
+    results = state["results"]
+    
+    # Create summary prompt
+    summary_prompt = ChatPromptTemplate.from_messages([
+        ("system", """You are a research evaluation expert. Summarize the analysis results 
+        and provide a final verdict on which papers match the query."""),
+        ("human", """Query: {query}
+        
+        Analysis Results:
+        
+        {analyses}
+        
+        Provide a final summary indicating which papers match the query and why.""")
+    ])
+    
+    # Format all analyses into a single text
+    analyses_text = "\\n\\n".join([
+        f"{r.get('paper_name', 'Paper ' + str(r['paper_index'] + 1))}:\\n{r['analysis']}"
+        for r in results if r.get('analysis')
+    ])
+    
+    try:
+        messages = summary_prompt.format_messages(
+            query=query,
+            analyses=analyses_text[:10000]  # Limit length
+        )
+        
+        summary_response = self.llm.invoke(messages)
+        state["summary"] = summary_response.content
+    except Exception as e:
+        state["summary"] = f"Error generating summary: {str(e)}"
+    
+    return state
+\`\`\`
+
+**Summary Generation:**
+
+- Takes all individual analyses as input
+
+- Asks LLM to synthesize and provide overall verdict
+
+- Creates a cohesive summary of matches
+
+#### Main Analysis Method
+
+\`\`\`python
+def analyze(self, query: str, papers: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Analyze research papers against a query
+    
+    This is the main entry point that orchestrates the entire workflow.
+    """
+    # Initialize state
+    initial_state = ResearchState(
+        query=query,
+        papers=papers,
+        results=[],
+        summary=None
+    )
+    
+    # Execute the graph
+    final_state = self.graph.invoke(initial_state)
+    
+    # Return formatted results
+    return {
+        "query": query,
+        "results": final_state["results"],
+        "summary": final_state.get("summary", "No summary available")
+    }
+\`\`\`
+
+**Workflow Execution:**
+
+1. Create initial state with query and papers
+
+2. Invoke the compiled graph
+
+3. Graph executes nodes sequentially
+
+4. Return final state with all results
+
+### Component 3: Streamlit Application (\`app.py\`)
+
+The Streamlit app provides the user interface for our system.
+
+#### Setup and Configuration
+
+\`\`\`python
+import streamlit as st
+import os
+from dotenv import load_dotenv
+from pdf_processor import PDFProcessor
+from research_analyzer import ResearchAnalyzer
+
+# Load environment variables
+load_dotenv()
+
+# Page configuration
+st.set_page_config(
+    page_title="AI Research Analyzer",
+    page_icon="📚",
+    layout="wide"
+)
+
+# Initialize session state
+if "analyzer" not in st.session_state:
+    st.session_state.analyzer = None
+if "processed_papers" not in st.session_state:
+    st.session_state.processed_papers = []
+if "analysis_results" not in st.session_state:
+    st.session_state.analysis_results = None
+\`\`\`
+
+**Session State:**
+
+- Streamlit's way of maintaining data across reruns
+
+- Prevents re-initialization on every interaction
+
+- Stores processed data for display
+
+#### Sidebar Configuration
+
+\`\`\`python
+with st.sidebar:
+    st.header("⚙️ Configuration")
+    
+    # API Key input
+    api_key_input = st.text_input(
+        "Groq API Key",
+        type="password",
+        help="Enter your Groq API key or set GROQ_API_KEY in .env file",
+        value=os.getenv("GROQ_API_KEY", "")
+    )
+    
+    if api_key_input:
+        os.environ["GROQ_API_KEY"] = api_key_input
+    
+    # Model selection
+    model_name = st.selectbox(
+        "Groq Model",
+        options=[
+            "llama-3.3-70b-versatile",
+            "llama-3.1-8b-instant",
+            "mixtral-8x7b-32768",
+            "gemma-7b-it",
+            "llama-3.2-90b-text-preview"
+        ],
+        index=0,
+        help="Select the Groq model to use for analysis."
+    )
+\`\`\`
+
+**User Controls:**
+
+- API key can be set via UI or environment variable
+
+- Model selection allows users to choose speed vs. quality
+
+- Helpful tooltips guide users
+
+#### Main Processing Logic
+
+\`\`\`python
+if uploaded_files and query:
+    if st.button("🔬 Analyze Papers", type="primary", use_container_width=True):
+        with st.spinner("Processing PDFs and analyzing..."):
+            try:
+                # Step 1: Initialize PDF processor
+                processor = PDFProcessor()
+                
+                # Step 2: Extract file data and names
+                pdf_data = [file.read() for file in uploaded_files]
+                file_names = [file.name for file in uploaded_files]
+                from io import BytesIO
+                pdf_files = [BytesIO(data) for data in pdf_data]
+                
+                # Step 3: Process PDFs
+                processed_papers = processor.process_multiple_pdfs(pdf_files, file_names)
+                st.session_state.processed_papers = processed_papers
+                
+                # Step 4: Initialize analyzer
+                groq_api_key = os.getenv("GROQ_API_KEY")
+                if not groq_api_key:
+                    st.error("Please set GROQ_API_KEY in the sidebar or .env file")
+                    return
+                
+                analyzer = ResearchAnalyzer(
+                    groq_api_key=groq_api_key,
+                    model_name=model_name
+                )
+                
+                # Step 5: Run analysis
+                results = analyzer.analyze(query, processed_papers)
+                st.session_state.analysis_results = results
+                
+                st.success("✅ Analysis complete!")
+                
+            except Exception as e:
+                st.error(f"Error during analysis: {str(e)}")
+\`\`\`
+
+**Processing Flow:**
+
+1. **Extract data**: Read PDF files into memory
+
+2. **Process PDFs**: Extract text and structure data
+
+3. **Initialize analyzer**: Set up LangGraph workflow
+
+4. **Run analysis**: Execute the graph workflow
+
+5. **Store results**: Save for display
+
+#### Results Display
+
+\`\`\`python
+if st.session_state.analysis_results:
+    st.markdown("---")
+    st.header("📊 Analysis Results")
+    
+    results = st.session_state.analysis_results
+    
+    # Display summary
+    st.subheader("📋 Summary")
+    st.info(results.get("summary", "No summary available"))
+    
+    # Display individual analyses
+    st.subheader("📑 Individual Paper Analyses")
+    
+    for idx, result in enumerate(results.get("results", [])):
+        paper_name = result.get("paper_name", f"Paper {result['paper_index'] + 1}")
+        with st.expander(f"📄 {paper_name}", expanded=False):
+            if result.get("error"):
+                st.error(f"Error: {result['error']}")
+            elif result.get("analysis"):
+                st.markdown(result["analysis"])
+                st.caption(f"Text length: {result.get('raw_text_length', 0)} characters")
+            else:
+                st.warning("No analysis available for this paper")
+\`\`\`
+
+**Display Features:**
+
+- **Summary section**: Overall verdict and match evaluation
+
+- **Expandable sections**: Individual paper analyses in collapsible sections
+
+- **Error handling**: Clear error messages if analysis fails
+
+- **Metadata**: Shows text length for context
+
+## How It Works: Step-by-Step Execution
+
+Let's trace through a complete execution:
+
+### Step 1: User Input
+
+\`\`\`
+User enters query: "machine learning in healthcare"
+User uploads: paper1.pdf, paper2.pdf, paper3.pdf
+\`\`\`
+
+### Step 2: PDF Processing
+
+\`\`\`python
+# PDFProcessor extracts text
+paper1 → "This paper discusses ML applications..."
+paper2 → "Healthcare data analysis using neural networks..."
+paper3 → "A survey of computer vision techniques..."
+\`\`\`
+
+### Step 3: LangGraph Execution
+
+**Initial State:**
+
+\`\`\`python
+{
+    "query": "machine learning in healthcare",
+    "papers": [
+        {"index": 0, "name": "paper1.pdf", "text": "..."},
+        {"index": 1, "name": "paper2.pdf", "text": "..."},
+        {"index": 2, "name": "paper3.pdf", "text": "..."}
+    ],
+    "results": [],
+    "summary": None
+}
+\`\`\`
+
+**After Node 1 (analyze_papers):**
+
+\`\`\`python
+{
+    "query": "machine learning in healthcare",
+    "papers": [...],
+    "results": [
+        {
+            "paper_index": 0,
+            "paper_name": "paper1.pdf",
+            "analysis": "This paper discusses ML applications in healthcare... Relevance: 95/100. VERDICT: MATCH"
+        },
+        {
+            "paper_index": 1,
+            "paper_name": "paper2.pdf",
+            "analysis": "This paper focuses on healthcare data... Relevance: 88/100. VERDICT: MATCH"
+        },
+        {
+            "paper_index": 2,
+            "paper_name": "paper3.pdf",
+            "analysis": "This paper discusses computer vision... Relevance: 15/100. VERDICT: NO MATCH"
+        }
+    ],
+    "summary": None
+}
+\`\`\`
+
+**After Node 2 (evaluate_matches):**
+
+\`\`\`python
+{
+    "query": "machine learning in healthcare",
+    "papers": [...],
+    "results": [...],
+    "summary": "Based on the analysis, 2 out of 3 papers match the query. Paper1.pdf and paper2.pdf both discuss machine learning applications in healthcare, with high relevance scores. Paper3.pdf focuses on computer vision and does not match the query."
+}
+\`\`\`
+
+### Step 4: Display Results
+
+- Summary shows overall match count
+
+- Individual analyses show detailed evaluations
+
+- Users can expand each paper to see full analysis
+
+## Key Features
+
+### 1. **Multi-PDF Processing**
+
+- Handles multiple PDFs simultaneously
+
+- Maintains file names and metadata
+
+- Error-resilient (continues if one PDF fails)
+
+### 2. **Intelligent Analysis**
+
+- Context-aware evaluation
+
+- Relevance scoring (0-100)
+
+- Clear match verdicts
+
+- Detailed explanations
+
+### 3. **Workflow Orchestration**
+
+- LangGraph manages complex state
+
+- Sequential node execution
+
+- Error handling at each step
 
-**KEY METHODS:**
-- \`analyze_paper()\`: Main entry point for queries
-- \`summarize_papers()\`: Specialized method for summarization
-- \`compare_methodologies()\`: Specialized method for comparison
-- \`get_recommendations()\`: Specialized method for recommendations
+### 4. **User-Friendly Interface**
 
-**EXECUTION FLOW:**
-1. User query: "What methods are used for cryptoglyph detection?"
-2. similarity_search_with_score() finds top 5 relevant document chunks
-3. Combines content from top results
-4. Formats as answer with source information
-5. Returns answer + sources with metadata
+- Simple upload and query interface
 
-### File 5: streamlit_app.py
+- Real-time progress indicators
 
-**LOCATION:** Root directory
+- Expandable result sections
 
-**PURPOSE:** Web interface and main application entry point
+- Model selection options
 
-**KEY FEATURES:**
-- Lazy initialization of components
-- Session state management for persistence
-- File upload interface
-- Interactive chat interface
-- Quick action buttons
-- Paper browser tab
+### 5. **Flexible Configuration**
 
-**EXECUTION FLOW:**
-1. User uploads PDFs through web interface
-2. Files saved to papers/ directory
-3. User clicks "Load Papers" button
-4. Documents processed and indexed
-5. User asks questions in chat interface
-6. System retrieves relevant documents and displays answers
+- Multiple LLM model options
 
-## How Everything Works Together - Execution Flow
+- Configurable via UI or environment variables
 
-### Complete User Journey
+- Temperature and parameter control
 
-**STEP 1: APPLICATION STARTUP**
-1. User runs: \`streamlit run streamlit_app.py\`
-2. Streamlit starts web server on port 8501
-3. Browser opens to http://localhost:8501
-4. Components NOT initialized yet (lazy loading)
+## Performance Considerations
 
-**STEP 2: UPLOADING PAPERS**
-1. User clicks file uploader in sidebar
-2. Selects PDF files from computer
-3. Clicks "Save Uploaded Papers" button
-4. Files saved to papers/ directory
+### Text Truncation
 
-**STEP 3: LOADING PAPERS (INDEXING)**
-1. User clicks "🔄 Load Papers" button
-2. DocumentLoader scans papers/ directory
-3. Loads all PDFs, extracts text from each page
-4. Clears old vector store (fresh start)
-5. Creates new VectorStore
-6. Adds all documents (generates embeddings, stores in DB)
-7. Sets papers_loaded flag
+\`\`\`python
+paper_text=paper["text"][:8000]  # Limit to 8000 chars
+\`\`\`
 
-**TIME BREAKDOWN:**
-- Small project (3 papers, ~50 pages): 10-20 seconds
-- Medium project (10 papers, ~200 pages): 30-60 seconds
-- Large project (50 papers, ~1000 pages): 2-5 minutes
+**Why?**
 
-**STEP 4: ASKING QUESTIONS**
-1. User navigates to "💬 Chat with Agent" tab
-2. Types question: "What is cryptoglyph identification?"
-3. Presses Enter or clicks send
-4. ResearchAgent.analyze_paper() called
-5. Vector search finds relevant documents
-6. Answer formatted and displayed
-7. Sources shown in expandable section
+- API token limits
 
-**RESPONSE TIME:**
-- First query: ~2-5 seconds (model loading if needed)
-- Subsequent queries: ~1-3 seconds (cached models)
+- Cost management
 
-### Data Flow Diagram
+- Faster processing
 
-**User Query** → **Streamlit UI** → **ResearchAgent** → **VectorStore** → **Embedding Model** → **Vector Database** → **Results** → **Format Response** → **Display Answer**
+- Most relevant content is usually at the beginning
 
-### Embedding Generation Details
+### Batch Processing
 
-**HOW TEXT BECOMES VECTORS:**
-1. Input: "What is cryptoglyph identification?"
-2. Tokenization: ["What", "is", "cryptoglyph", "identification", "?"]
-3. Model Processing: Passes through neural network (all-MiniLM-L6-v2)
-4. Output: 384-dimensional vector [0.23, -0.45, 0.67, ...]
+- Processes papers sequentially (could be parallelized)
 
-**WHY 384 DIMENSIONS?**
-- Balance between quality and speed
-- More dimensions = better quality but slower
-- 384 is optimal for most use cases
+- Each paper analyzed independently
 
-### Similarity Search Details
+- Summary generated after all analyses complete
 
-**HOW IT FINDS SIMILAR DOCUMENTS:**
-1. Query vector: [0.23, -0.45, 0.67, ...]
-2. All document vectors in database
-3. Compute cosine similarity for each
-4. Sort by similarity score
-5. Return top K (default: 5)
+### Error Handling
 
-## Technical Deep Dive
+- Graceful degradation
 
-### Vector Embeddings Explained
+- Individual paper failures don't stop the process
 
-**WHAT ARE EMBEDDINGS?**
-- Numerical representations of text
-- Capture semantic meaning
-- Similar texts → similar vectors
+- Clear error messages for debugging
 
-**EXAMPLE:**
-- "dog" → [0.2, -0.1, 0.5, ...]
-- "puppy" → [0.21, -0.09, 0.48, ...] (similar!)
-- "car" → [-0.3, 0.4, -0.2, ...] (different)
+## Advanced Use Cases
 
-**WHY BETTER THAN KEYWORD SEARCH:**
-- Keyword: "dog" matches "dog" only
-- Semantic: "dog" matches "puppy", "canine", "pet"
+### 1. **Literature Review Automation**
 
-### Vector Database Comparison
+Researchers can quickly identify relevant papers from large collections.
 
-**FAISS (Facebook AI Similarity Search)**
+### 2. **Content Discovery**
 
-**Pros:**
-- Fast similarity search
-- Works offline
-- Low memory usage
-- Good Python 3.14 support
+Find documents matching specific topics in document repositories.
 
-**Cons:**
-- File-based storage (less flexible)
-- No built-in metadata filtering
-- Requires manual index management
-
-**CHROMADB**
-
-**Pros:**
-- Built-in metadata filtering
-- More flexible query options
-- Better for production deployments
+### 3. **Quality Filtering**
 
-**Cons:**
-- Python 3.14 compatibility issues
-- Requires more setup
-- Slightly slower for simple searches
+Filter papers by relevance score to focus on most relevant content.
 
-**WHICH TO USE?**
-- Development/Testing: FAISS (simpler, faster setup)
-- Production: ChromaDB (if Python < 3.14) or FAISS (if Python 3.14+)
-- This project: FAISS as default with ChromaDB fallback
+### 4. **Research Gap Analysis**
 
-### Language Models Explained
+Identify which aspects of a topic are covered or missing in a collection.
 
-**WHAT ARE LLMs?**
-- Large Language Models are neural networks trained on vast text data
-- Can generate text, answer questions, summarize content
-- Understand context and relationships between concepts
+## Future Enhancements
 
-**MODELS USED IN THIS PROJECT:**
+### 1. **Parallel Processing**
 
-**1. GPT-2 (Local Fallback)**
-- Size: ~500MB
-- Parameters: 1.5 billion
-- Quality: Good for basic tasks
-- Speed: Fast on CPU
-- Cost: Free (runs locally)
+\`\`\`python
+# Could use asyncio or multiprocessing
+async def analyze_paper_async(paper):
+    # Parallel analysis
+\`\`\`
 
-**2. Mistral-7B (Cloud Option)**
-- Size: 7 billion parameters
-- Quality: Excellent
-- Speed: Fast (cloud infrastructure)
-- Cost: Pay per use
+### 2. **Vector Embeddings**
 
-**WHY FALLBACK STRATEGY?**
-- Ensures system always works
-- No dependency on external services
-- Cost-effective for development
-- Can upgrade to better models when needed
+- Store paper embeddings for semantic search
 
-### Retrieval-Augmented Generation (RAG)
+- Faster similarity matching
 
-**WHAT IS RAG?**
-- Combines vector search with LLM generation
-- Retrieves relevant documents first
-- Uses documents as context for LLM
-- Generates answers based on retrieved content
+- RAG (Retrieval Augmented Generation) integration
 
-**HOW IT WORKS IN THIS PROJECT:**
-1. User asks question
-2. System searches vector database for relevant papers
-3. Retrieves top K most similar document chunks
-4. Passes chunks + question to LLM (or formats directly)
-5. LLM generates answer using retrieved context
-6. Returns answer with source citations
+### 3. **Citation Analysis**
 
-**WHY RAG IS POWERFUL:**
-- Answers are grounded in actual documents
-- Can cite sources (transparency)
-- Reduces hallucinations
-- Works with domain-specific knowledge
-- No need to retrain models
+- Extract and analyze citations
 
-## Future Enhancements & Conclusion
+- Build citation networks
 
-### Potential Improvements
+- Identify influential papers
 
-**1. ADVANCED LLM INTEGRATION**
-- Full RAG pipeline with LLM summarization
-- Multi-turn conversations with context
-- Better answer generation
-- Support for more LLM providers (OpenAI, Anthropic, etc.)
+### 4. **Multi-Query Support**
 
-**2. ENHANCED DOCUMENT PROCESSING**
-- Better PDF parsing (handles images, tables)
-- Support for more formats (Word, LaTeX, etc.)
-- Intelligent chunking strategies
-- Metadata extraction (authors, dates, etc.)
+- Handle multiple queries simultaneously
 
-**3. IMPROVED SEARCH CAPABILITIES**
-- Hybrid search (semantic + keyword)
-- Filtering by metadata (date, author, etc.)
-- Multi-query search
-- Query expansion
+- Compare results across queries
 
-**4. USER EXPERIENCE ENHANCEMENTS**
-- Export conversations to PDF/Markdown
-- Share analysis results
-- Collaborative features
-- Custom themes and settings
-- Mobile-responsive design
+- Generate comparative analysis
 
-**5. ANALYTICS & INSIGHTS**
-- Paper citation graphs
-- Topic modeling
-- Trend analysis
-- Research gap identification
-- Automated report generation
+### 5. **Export Functionality**
 
-### Conclusion
+- Export results as PDF/CSV
 
-**WHAT WE BUILT:**
+- Generate reports
 
-This AI Research Agent demonstrates how modern AI technologies can be combined to create powerful document analysis systems. By leveraging vector embeddings, semantic search, and language models, we've created a tool that makes research paper analysis more efficient and accessible.
+- Shareable analysis summaries
 
-**KEY TAKEAWAYS:**
+## Best Practices Implemented
 
-1. Vector embeddings enable semantic understanding beyond keyword matching
-2. Modular architecture makes systems maintainable and extensible
-3. Fallback strategies ensure reliability and user experience
-4. RAG (Retrieval-Augmented Generation) combines search with generation
-5. Open-source tools make advanced AI accessible to everyone
+### 1. **Separation of Concerns**
 
-**WHY THIS MATTERS:**
+- PDF processing separate from analysis
 
-Research is becoming increasingly data-driven, with thousands of papers published daily. Tools like this help researchers:
+- UI separate from business logic
 
-- Stay current with latest findings
-- Find relevant information quickly
-- Compare methodologies across papers
-- Generate insights from large document collections
-- Save time on literature reviews
+- Clear module boundaries
 
-**THE FUTURE:**
+### 2. **Error Handling**
 
-As AI technology continues to evolve, systems like this will become even more powerful. We can expect:
+- Try-except blocks at critical points
 
-- Better understanding of complex documents
-- More accurate answer generation
-- Faster processing speeds
-- Integration with more data sources
-- Collaborative research platforms
+- Graceful degradation
 
-**GETTING STARTED:**
+- User-friendly error messages
 
-1. Clone the repository
-2. Install dependencies (requirements.txt)
-3. Upload your research papers
-4. Start asking questions!
+### 3. **Type Hints**
 
-The codebase is designed to be:
-- Easy to understand (well-commented)
-- Easy to modify (modular structure)
-- Easy to extend (clear interfaces)
-- Easy to deploy (simple setup)
+- Better code documentation
 
-**FINAL THOUGHTS:**
+- IDE support
 
-Building AI-powered applications doesn't have to be complicated. By using existing tools and libraries, we can create sophisticated systems that solve real problems. This project serves as a foundation that can be extended and customized for various research domains.
+- Runtime validation
 
-Whether you're a researcher looking to analyze papers, a developer wanting to learn about AI systems, or someone interested in document intelligence, this project provides a practical starting point.
+### 4. **State Management**
 
-Remember: The best way to learn is by building. Start with this foundation, experiment with different approaches, and create something that solves your specific needs.
+- TypedDict for state schema
 
-Happy researching! 🔬📚🤖
+- Clear state transitions
+
+- Immutable state updates
+
+### 5. **Prompt Engineering**
+
+- Clear system messages
+
+- Structured output requests
+
+- Context preservation
+
+## Conclusion
+
+This AI Research Analyzer demonstrates the power of combining modern AI frameworks (LangChain, LangGraph) with fast inference APIs (Groq) to solve real-world problems. The architecture is:
+
+- **Modular**: Easy to extend and modify
+
+- **Scalable**: Can handle multiple papers efficiently
+
+- **User-friendly**: Intuitive Streamlit interface
+
+- **Robust**: Error handling and graceful degradation
+
+The system showcases how agentic AI workflows can be orchestrated using LangGraph, making complex multi-step processes manageable and maintainable.
+
+Whether you're a researcher looking to automate literature reviews, a student organizing research materials, or a developer building document analysis tools, this architecture provides a solid foundation for AI-powered research assistance.
+
+## Code Repository Structure
+
+\`\`\`
+Research_agent/
+├── app.py                 # Streamlit UI (182 lines)
+├── pdf_processor.py       # PDF extraction (73 lines)
+├── research_analyzer.py   # LangGraph workflow (174 lines)
+├── requirements.txt       # Dependencies
+├── setup_env.py          # Environment setup helper
+├── .env.example          # Environment template
+└── README.md             # Project documentation
+\`\`\`
+
+## Getting Started
+
+1. **Install dependencies:**
+
+\`\`\`bash
+pip install -r requirements.txt
+\`\`\`
+
+2. **Set up environment:**
+
+\`\`\`bash
+# Create .env file
+GROQ_API_KEY=your_api_key_here
+\`\`\`
+
+3. **Run the application:**
+
+\`\`\`bash
+streamlit run app.py
+\`\`\`
+
+4. **Use the interface:**
+
+   - Enter your research query
+
+   - Upload PDF files
+
+   - Click "Analyze Papers"
+
+   - Review results
+
+## Final Thoughts
+
+Building AI applications doesn't have to be complex. By leveraging frameworks like LangChain and LangGraph, we can create sophisticated AI workflows with relatively simple code. The key is understanding:
+
+- **State management** - How data flows through the system
+
+- **Prompt engineering** - How to get the best results from LLMs
+
+- **Error handling** - How to make systems robust
+
+- **User experience** - How to make tools accessible
+
+This project demonstrates all of these principles in a practical, real-world application. Happy coding!
     `.trim(),
   },
 };
@@ -1199,6 +1656,27 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
               </a>
               <a
                 href="https://trading-agent-ai.streamlit.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                Live Demo
+              </a>
+            </div>
+          )}
+          
+          {params.slug === "ai-research-agent-semantic-document-intelligence" && (
+            <div className="flex items-center gap-4 mb-8">
+              <a
+                href="https://github.com/aviralsharmaa/AI_research_agent"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+              >
+                View on GitHub
+              </a>
+              <a
+                href="https://research-agent-ai.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
