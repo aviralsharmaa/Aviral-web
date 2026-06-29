@@ -16,6 +16,8 @@ const roles = [
       "Built an LLM usage-metering & entitlements platform — a stateless Go 1.23 microservice bridging the compliance agents to OpenMeter for per-customer / per-agent / per-model token metering, quotas, RPM/TPM rate limits and billing-readiness, backed by Postgres (pgx).",
       "Engineered the metering platform for resilience: fail-open admission (a metering outage never blocks an agent run), a durable Redis outbox with at-least-once delivery and idempotent dedup, and Postgres advisory locks serializing usage across replicas — surfaced through a React + Vite + Recharts admin console behind Dex/OIDC.",
       "Delivered the recurring regulatory Reporting & Disclosure (MIS) module — table + calendar tracking of periodic filings with due dates, frequency, owners and SPOC, scoped per business unit and regulator and traced to source circulars, backed by MongoDB + Qdrant semantic search.",
+      "Owned GitOps delivery for ComplianceOS on EKS — Kustomize overlays reconciled by ArgoCD across staging, UAT and prod; exposed and OIDC-secured the metering console via ALB + ACM TLS + Dex, with secrets pulled at runtime from AWS Secrets Manager (External Secrets) and Namecheap DNS pointed at the shared ALB.",
+      "Hardened and operated platform services: environment-locked metering so shared OpenMeter + Postgres never cross-contaminate across envs, removed the admin API from the edge (proxied in-cluster), and shipped a RabbitMQ checklist pipeline (poller → agent → Bedrock via LiteLLM) plus an investigation views-refresh service with health probes, spot scheduling and read-only root filesystems.",
     ],
   },
   {

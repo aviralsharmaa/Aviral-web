@@ -50,6 +50,20 @@ const projects = [
     slug: null,
   },
   {
+    index: "04",
+    title: "Platform & GitOps Delivery",
+    subtitle: "ComplianceOS Cloud Infrastructure",
+    tags: ["EKS", "ArgoCD", "Kustomize", "ALB · Dex OIDC", "RabbitMQ"],
+    year: "2026",
+    confidential: true,
+    image: null,
+    blurb:
+      "GitOps delivery for the ComplianceOS platform on EKS — Kustomize overlays reconciled by ArgoCD across staging, UAT and prod. Publicly exposed and OIDC-secured the metering console (ALB + ACM TLS + Dex, secrets via External Secrets / AWS Secrets Manager), environment-locked metering on shared OpenMeter + Postgres, and shipped a RabbitMQ checklist pipeline (poller → agent → Bedrock/LiteLLM) plus an investigation views-refresh service.",
+    github: null,
+    demo: null,
+    slug: null,
+  },
+  {
     index: "05",
     title: "AI Email Agent",
     subtitle: "Autonomous Outreach System",
