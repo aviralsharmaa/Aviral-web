@@ -5,7 +5,7 @@ import { RevealWords, Rise } from "./Reveal";
 
 const roles = [
   {
-    role: "Applied AI Engineer",
+    role: "Full Stack Engineer",
     company: "OnFinance AI",
     location: "Bengaluru, IN",
     period: "Feb 2026 — Present",
@@ -25,7 +25,7 @@ const roles = [
     role: "Machine Learning Engineer",
     company: "OneARVO Ventures",
     location: "Noida, IN",
-    period: "Dec 2024 — Feb 2026",
+    period: "Feb 2025 — Feb 2026",
     points: [
       "Built **Vision Transformer** and **contrastive-learning** models on 200K+ images for QR and copy-detection-pattern verification, reaching 97.9% accuracy.",
       "Designed automated **data curation** and perception pipelines to detect, crop and augment QR regions for large-scale training on **AWS SageMaker**.",
@@ -38,7 +38,7 @@ const roles = [
     role: "Flutter Developer",
     company: "BlueTrans",
     location: "Noida, IN",
-    period: "May 2024 — Nov 2024",
+    period: "Jun 2024 — Nov 2024",
     points: [
       "Integrated the **Razorpay** payment gateway into an **Android** app for secure transactions, improving successful payments by up to 70%.",
       "Designed **app UI** to enhance user experience and engagement.",
