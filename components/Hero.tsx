@@ -1,44 +1,129 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+
+const marqueeItems = [
+  "Agentic AI",
+  "Computer Vision",
+  "MLOps",
+  "LLM Orchestration",
+  "RAG Systems",
+  "Production ML",
+];
 
 export default function Hero() {
-  const [imageError, setImageError] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const line = {
+    hidden: { y: "110%" },
+    show: (i: number) => ({
+      y: 0,
+      transition: {
+        duration: 1,
+        ease: [0.22, 1, 0.36, 1],
+        delay: 2.5 + i * 0.12,
+      },
+    }),
+  };
 
   return (
     <section
       id="home"
-      className="pt-32 pb-20 px-6"
+      ref={ref}
+      className="relative flex min-h-screen flex-col justify-between overflow-hidden pt-32 md:pt-28"
     >
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-12">
-          <div className="w-40 h-40 mx-auto mb-8 rounded-full overflow-hidden border-2 border-white/20 bg-white/5 flex items-center justify-center">
-            {!imageError ? (
-              <Image
-                src="/profile.png"
-                alt="Aviral Sharma"
-                width={160}
-                height={160}
-                className="w-full h-full object-cover"
-                onError={() => setImageError(true)}
-              />
-            ) : (
-              <div className="text-5xl text-white font-bold">AS</div>
-            )}
-          </div>
+      <motion.div style={{ y, opacity }} className="px-6 md:px-12">
+        <div className="mb-8 flex items-center gap-4 text-xs uppercase tracking-tighter text-muted">
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.7 }}
+          >
+            ( Noida, India — 2026 )
+          </motion.span>
         </div>
 
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
-            Aviral Sharma
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-3">
-            Machine Learning Engineer
+        <h1 className="display text-[15vw] leading-[0.86] tracking-tightest md:text-[12.5vw]">
+          <span className="block overflow-hidden">
+            <motion.span
+              custom={0}
+              variants={line}
+              initial="hidden"
+              animate="show"
+              className="block"
+            >
+              Full-Stack
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden">
+            <motion.span
+              custom={1}
+              variants={line}
+              initial="hidden"
+              animate="show"
+              className="block"
+            >
+              <span className="font-serif italic text-muted">Applied</span>
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden">
+            <motion.span
+              custom={2}
+              variants={line}
+              initial="hidden"
+              animate="show"
+              className="block"
+            >
+              <span className="text-accent">AI</span> Engineer
+            </motion.span>
+          </span>
+        </h1>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 3.1, duration: 0.8 }}
+          className="mt-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+        >
+          <p className="max-w-md text-balance text-base text-muted md:text-lg">
+            I design end-to-end AI systems — from autonomous agents and computer
+            vision models to the MLOps pipelines that keep them reliable in
+            production.
           </p>
+          <a
+            href="#work"
+            data-hover
+            className="group flex items-center gap-3 text-sm uppercase tracking-tighter"
+          >
+            <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line transition-colors group-hover:border-accent group-hover:text-accent">
+              ↓
+            </span>
+            Scroll to explore
+          </a>
+        </motion.div>
+      </motion.div>
+
+      {/* marquee */}
+      <div className="mt-16 select-none border-y border-line py-4">
+        <div className="flex w-max animate-marquee whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span
+              key={i}
+              className="mx-8 flex items-center gap-8 text-2xl font-light text-muted md:text-3xl"
+            >
+              {item}
+              <span className="text-accent">✦</span>
+            </span>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-

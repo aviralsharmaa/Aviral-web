@@ -34,3 +34,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# netlify
+.netlify
+
+# confidential — internal analysis docs (do NOT commit/deploy)
+AGENT_DEEP_DIVE.md
+OpenMeter_and_MIS_Detailed_Analysis.md
+
+# stray root-level source image (public/aviral.png is the one in use)
+/aviral.png
+

@@ -1,0 +1,11 @@
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Official Next.js runtime — handles App Router, dynamic routes
+# (/blog/[slug]) and next/image on Netlify.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

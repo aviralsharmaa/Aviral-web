@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Navigation from "@/components/Navigation";
-import Background from "@/components/Background";
 
 const blogPosts: Record<string, {
   title: string;
@@ -17,154 +16,982 @@ const blogPosts: Record<string, {
     date: "2025",
     image: "/job-mailer.png",
     content: `
-# AI Email Agent – Autonomous Outreach System
+# AI Email Agent - Complete Documentation
 
-The AI Email Agent is an intelligent automation system designed to eliminate the manual labor of searching for corporate contacts and sending personalized outreach. By leveraging Natural Language Processing (NLP), the agent allows users to simply provide a command in plain English, such as "Send a mail to microsoft," and it handles the entire discovery and dispatch process.
+## 📚 Table of Contents
 
-## The Core Technology Stack
+1. [Overview](#overview)
+2. [How It Works](#how-it-works)
+3. [Architecture](#architecture)
+4. [Installation & Setup](#installation--setup)
+5. [Usage Guide](#usage-guide)
+6. [Features](#features)
+7. [Examples](#examples)
+8. [Technical Details](#technical-details)
+9. [Troubleshooting](#troubleshooting)
+10. [Best Practices](#best-practices)
 
-To build this agent, I utilized a robust stack focused on security, scalability, and ease of use:
+---
 
-- **Programming Language**: Python 3.7 or higher
-- **Integrations**: Gmail API for secure email transmission and OAuth 2.0 for user authentication
-- **User Interfaces**: Streamlit for a modern web-based UI and a dedicated CLI for power users
-- **Libraries**: The project relies on google-api-python-client, google-auth-oauthlib, and dnspython for backend operations
+## Overview
 
-## Pre-requisites for Setup
+The **AI Email Agent** is an intelligent email sending system that uses natural language processing to automatically find and send emails to companies. Instead of manually searching for email addresses, you simply tell the agent what you want in plain English, and it handles the rest.
 
-Before the agent can function, several environmental configurations are necessary:
+### Key Capabilities
 
-1. **Google Cloud Project**: You must create a project in the Google Cloud Console and enable the Gmail API
-2. **OAuth Credentials**: You need to configure an OAuth consent screen and download the credentials.json file, placing it in the project root directory
-3. **Email Database**: A file named emails_from_excel.txt must be prepared, containing a list of target email addresses formatted as one per line
-4. **Dependencies**: All required Python packages must be installed via the requirements.txt file
+- 🤖 **Natural Language Processing**: Understands prompts like "Send a mail to microsoft"
+- 🎯 **Smart Company Detection**: Automatically finds all emails associated with a company
+- 📧 **Automated Email Sending**: Sends personalized emails via Gmail API
+- 📎 **File Attachments**: Supports multiple attachments (resume, CV, cover letter)
+- 🌐 **Web Interface**: Beautiful Streamlit-based web UI
+- 💻 **CLI Interface**: Command-line interface for power users
 
-## How the Agent Works: Under the Hood
+### Use Cases
 
-### 1. NLP-Driven Prompt Parsing
+- Job applications to multiple companies
+- Bulk email campaigns to specific industries
+- Automated outreach to company employees
+- Personalized mass emailing with attachments
 
-The "brain" of the agent uses regex and pattern matching to dissect natural language prompts. It identifies specific keywords like "to [company]," "subject:," and "attachments:" to extract essential data without requiring structured forms. For example, the agent can automatically extract the company name from "Send email to apple company" or identify attachment names from "attach resume.pdf".
+---
 
-### 2. Smart Company Discovery Logic
+## How It Works
 
-Once a company name is extracted, the agent performs a deep search in the local database. The matching logic is case-insensitive and focuses on domain extraction; if you type "microsoft," it looks for all emails ending in @microsoft.com. Crucially, the agent includes a personal email filter that automatically excludes non-professional domains like gmail.com, yahoo.com, and outlook.com.
+### 1. Natural Language Processing
 
-### 3. Secure Authentication and Dispatch
+The agent uses **pattern matching** and **regex** to extract information from your prompts:
 
-On its first run, the agent initiates a Google OAuth flow, opening a browser window to grant permissions. It then generates a token.json file to manage future sessions securely without re-authentication. When sending, the agent creates a MIME message, detects file types automatically for attachments, and transmits the data via the Gmail API.
+\`\`\`
+User Input: "Send a mail to microsoft with subject 'Job Application'"
 
-### 4. Real-time Tracking and Logging
+           ↓
 
-Every action is recorded to ensure reliability. The agent maintains four distinct logs:
+Agent Extracts:
 
-- **sent_mail.txt** for successful deliveries
-- **not_sent.txt** for failed attempts with specific error reasons
-- **mail_log.csv** for detailed timestamps and Gmail message IDs
-- **sent_mail_report.xlsx** for a comprehensive Excel-based summary
+  - Company: "microsoft"
+  - Subject: "Job Application"
+  - Body: (from manual input or prompt)
+\`\`\`
 
-## User Interaction Models
+#### Extraction Patterns
 
-### Web Interface (Streamlit)
+The agent recognizes these patterns:
 
-The web UI provides a beautiful interface where users can authenticate with one click, type prompts, and upload multiple files (PDF, DOCX, TXT, or images) through a visual uploader. It features a visual progress bar and a sidebar showing real-time statistics of sent and failed emails.
+- \`"Send a mail to [company]"\` → Extracts company name
+- \`"Send email to [company] company"\` → Extracts company name
+- \`"subject: 'Your Subject'"\` → Extracts subject
+- \`"attachments: file1.pdf file2.pdf"\` → Extracts file names
+- \`"body: 'Your message'"\` → Extracts body
 
-### CLI Interface
+### 2. Company Email Discovery
 
-The CLI version is built for efficiency, supporting interactive multi-line input for email bodies. Users can type END on a new line to finish their message or CANCEL to abort the process. It also includes a command to list companies, allowing users to see exactly which organizations are currently in their database.
+Once the company name is extracted, the agent searches the email database:
 
-## Project Architecture
+\`\`\`
+Company: "microsoft"
 
-The system follows a modular architecture:
+           ↓
 
-**Main Application Files:**
-- email_agent_streamlit.py (Web Interface)
-- email_agent_cli.py (Command Line Interface)
-- send_mails_gmail_api.py (Core Email Engine)
+Search Algorithm:
 
-**Supporting Files:**
-- emails_from_excel.txt: Email database
-- credentials.json: Gmail API OAuth credentials
-- token.json: Auto-generated authentication token
-- Multiple log files for tracking
+  1. Load all emails from emails_from_excel.txt
+  2. Extract domain from each email (e.g., @microsoft.com)
+  3. Match main domain part with company name
+  4. Filter out personal emails (gmail.com, outlook.com, etc.)
+  5. Return matching emails
 
-## Technical Implementation Details
+           ↓
+
+Result: [anand.subramanian@microsoft.com, asingh@microsoft.com, ...]
+\`\`\`
+
+#### Matching Logic
+
+- **Exact Match**: "microsoft" matches \`@microsoft.com\` exactly
+- **Case Insensitive**: "Microsoft", "MICROSOFT", "microsoft" all work
+- **Domain Extraction**: Extracts main domain part (before first dot)
+- **Personal Email Filter**: Excludes gmail.com, outlook.com, yahoo.com, etc.
+
+### 3. Email Composition
+
+The agent creates email messages with:
+
+- **To**: Company email addresses (found automatically)
+- **From**: Your authenticated Gmail account
+- **Subject**: Extracted from prompt or manual input
+- **Body**: Extracted from prompt or manual input
+- **Attachments**: Files uploaded or specified in prompt
+
+### 4. Email Sending
+
+Emails are sent via **Gmail API**:
+
+\`\`\`
+1. Authenticate with Gmail (OAuth2)
+2. Create MIME message with attachments
+3. Encode message to base64
+4. Send via Gmail API
+5. Log results (sent/failed)
+6. Update tracking files
+\`\`\`
+
+### 5. Tracking & Logging
+
+All email activities are tracked:
+
+- **sent_mail.txt**: Successfully sent emails
+- **not_sent.txt**: Failed emails with error reasons
+- **mail_log.csv**: Detailed logs with timestamps
+- **sent_mail_report.xlsx**: Excel report with all details
+
+---
+
+## Architecture
+
+### System Components
+
+\`\`\`
+┌─────────────────────────────────────────────────────────┐
+│                  AI Email Agent                         │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  ┌──────────────┐         ┌──────────────┐            │
+│  │   CLI Mode   │         │  Web Mode    │            │
+│  │ (Terminal)   │         │ (Streamlit)  │            │
+│  └──────┬───────┘         └──────┬───────┘            │
+│         │                        │                     │
+│         └────────┬───────────────┘                     │
+│                  │                                     │
+│         ┌────────▼────────┐                           │
+│         │  Prompt Parser  │                           │
+│         │  (NLP Engine)   │                           │
+│         └────────┬────────┘                           │
+│                  │                                     │
+│         ┌────────▼────────┐                           │
+│         │ Email Finder    │                           │
+│         │ (Company Match) │                           │
+│         └────────┬────────┘                           │
+│                  │                                     │
+│         ┌────────▼────────┐                           │
+│         │ Email Composer  │                           │
+│         │ (MIME Builder) │                           │
+│         └────────┬────────┘                           │
+│                  │                                     │
+│         ┌────────▼────────┐                           │
+│         │ Gmail API       │                           │
+│         │ (Email Sender)  │                           │
+│         └────────┬────────┘                           │
+│                  │                                     │
+│         ┌────────▼────────┐                           │
+│         │ Logger          │                           │
+│         │ (Tracking)      │                           │
+│         └─────────────────┘                           │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+\`\`\`
+
+### File Structure
+
+\`\`\`
+job-mailer/
+├── email_agent_cli.py          # CLI interface
+├── email_agent_streamlit.py     # Web interface
+├── send_mails_gmail_api.py     # Gmail API integration
+├── emails_from_excel.txt       # Email database
+├── credentials.json            # Gmail API credentials
+├── token.json                  # Auth token (auto-generated)
+├── sent_mail.txt              # Sent emails log
+├── not_sent.txt                # Failed emails log
+├── mail_log.csv                # Detailed CSV log
+├── sent_mail_report.xlsx        # Excel report
+└── uploads/                    # Temporary file storage
+\`\`\`
+
+### Data Flow
+
+\`\`\`
+User Prompt
+    ↓
+[Prompt Parser] → Extract: company, subject, body, attachments
+    ↓
+[Email Finder] → Search emails_from_excel.txt
+    ↓
+[Email Composer] → Create MIME message
+    ↓
+[Gmail API] → Send email
+    ↓
+[Logger] → Update logs and tracking files
+\`\`\`
+
+---
+
+## Installation & Setup
+
+### Prerequisites
+
+- Python 3.7 or higher
+- Gmail account
+- Google Cloud Project with Gmail API enabled
+
+### Step 1: Install Dependencies
+
+\`\`\`bash
+pip install -r requirements.txt
+\`\`\`
+
+Required packages:
+
+- \`google-auth>=2.0.0\`
+- \`google-auth-oauthlib>=0.5.0\`
+- \`google-api-python-client>=2.0.0\`
+- \`streamlit>=1.28.0\` (for web interface)
+
+### Step 2: Gmail API Setup
+
+1. **Create Google Cloud Project**
+
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select existing one
+
+2. **Enable Gmail API**
+
+   - Navigate to "APIs & Services" > "Library"
+   - Search for "Gmail API"
+   - Click "Enable"
+
+3. **Create OAuth Credentials**
+
+   - Go to "APIs & Services" > "Credentials"
+   - Click "Create Credentials" > "OAuth client ID"
+   - Choose "Desktop app" as application type
+   - Download credentials as \`credentials.json\`
+   - Place \`credentials.json\` in project directory
+
+4. **Configure OAuth Consent Screen**
+
+   - Go to "APIs & Services" > "OAuth consent screen"
+   - Choose "External" (for personal use)
+   - Fill required fields
+   - Add your email as test user
+
+### Step 3: Email Database Setup
+
+1. **Prepare Email List**
+
+   - Create \`emails_from_excel.txt\` file
+   - Add one email per line:
+
+     \`\`\`
+     email1@company.com
+     email2@company.com
+     email3@company.com
+     \`\`\`
+
+2. **Email Format**
+
+   - One email per line
+   - No headers or extra formatting
+   - UTF-8 encoding
+
+### Step 4: First Run Authentication
+
+When you run the agent for the first time:
+
+1. **CLI Mode**:
+
+   \`\`\`bash
+   python email_agent_cli.py
+   \`\`\`
+
+   - Browser will open for authentication
+   - Grant permissions
+   - \`token.json\` will be created automatically
+
+2. **Web Mode**:
+
+   \`\`\`bash
+   streamlit run email_agent_streamlit.py
+   \`\`\`
+
+   - Click "Authenticate with Gmail" in sidebar
+   - Grant permissions
+   - \`token.json\` will be created automatically
+
+---
+
+## Usage Guide
+
+### CLI Mode (Command Line)
+
+#### Starting the Agent
+
+\`\`\`bash
+python email_agent_cli.py
+\`\`\`
+
+#### Basic Commands
+
+**1. Simple Email**
+
+\`\`\`
+🤖 Agent> Send a mail to microsoft with subject 'Job Application' and body 'I am interested in...'
+\`\`\`
+
+**2. With Attachments**
+
+\`\`\`
+🤖 Agent> Send email to google with attachments resume.pdf cover_letter.pdf
+\`\`\`
+
+**3. Interactive Multi-line Body**
+
+\`\`\`
+🤖 Agent> Send a mail to amazon with subject 'Backend Engineer Role'
+
+[Enter body when prompted, type END when done]
+\`\`\`
+
+**4. List Available Companies**
+
+\`\`\`
+🤖 Agent> list companies
+\`\`\`
+
+**5. Help**
+
+\`\`\`
+🤖 Agent> help
+\`\`\`
+
+**6. Exit**
+
+\`\`\`
+🤖 Agent> exit
+\`\`\`
+
+### Web Mode (Streamlit)
+
+#### Starting the Web Interface
+
+\`\`\`bash
+streamlit run email_agent_streamlit.py
+\`\`\`
+
+The app will open at \`http://localhost:8501\`
+
+#### Step-by-Step Usage
+
+1. **Authenticate**
+
+   - Click "🔑 Authenticate with Gmail" in sidebar
+   - Grant permissions in browser
+   - Wait for "✅ Authenticated successfully!"
+
+2. **Enter Prompt**
+
+   - Type in main text area: \`Send a mail to microsoft\`
+   - Or: \`Send email to apple company\`
+
+3. **Fill Optional Fields** (if needed)
+
+   - Expand "📋 Manual Input Fields"
+   - Enter Subject and Body manually
+
+4. **Upload Attachments** (optional)
+
+   - Click "Upload Resume/CV/Cover Letter"
+   - Select files (PDF, DOC, DOCX, TXT)
+
+5. **Send Emails**
+
+   - Click "🚀 Send Emails"
+   - Review preview
+   - Check confirmation checkbox
+   - Emails send automatically
+
+---
+
+## Features
+
+### 1. Natural Language Processing
+
+**What it does:**
+
+- Understands plain English prompts
+- Extracts company names, subjects, bodies, attachments
+- Handles variations in phrasing
+
+**Examples:**
+
+- ✅ "Send a mail to microsoft"
+- ✅ "Send email to apple company"
+- ✅ "Send mail to google with subject 'Job Application'"
+- ✅ "all microsoft mails"
+
+### 2. Smart Company Matching
+
+**What it does:**
+
+- Finds all emails associated with a company
+- Matches exact domain names only
+- Filters out personal email domains
+
+**How it works:**
+
+- Extracts main domain part (e.g., "microsoft" from "@microsoft.com")
+- Matches exactly (case-insensitive)
+- Returns all matching emails
+
+**Example:**
+
+\`\`\`
+Input: "microsoft"
+
+Matches: @microsoft.com, @microsoft.co.uk
+Does NOT match: @microservices.com, @microsoftstore.com
+\`\`\`
+
+### 3. Multi-Attachment Support
+
+**Supported formats:**
+
+- PDF (.pdf)
+- Word documents (.doc, .docx)
+- Text files (.txt)
+- Images (.jpg, .jpeg, .png)
+
+**Usage:**
+
+- Upload multiple files at once
+- Files attached to all emails
+- Automatic MIME type detection
+
+### 4. Email Tracking
+
+**Tracking files:**
+
+- \`sent_mail.txt\`: Successfully sent emails
+- \`not_sent.txt\`: Failed emails with reasons
+- \`mail_log.csv\`: Detailed logs with timestamps
+- \`sent_mail_report.xlsx\`: Excel report
+
+**Information tracked:**
+
+- Email address
+- Send status (SENT/FAILED/DELIVERY_FAILED)
+- Timestamp
+- Gmail message ID
+- Error messages
+
+### 5. Error Handling
+
+**Types of errors handled:**
+
+- **Rate Limiting**: Automatic retry with delays
+- **Delivery Failures**: Invalid addresses logged separately
+- **Network Errors**: Temporary failures retried
+- **Authentication Errors**: Clear error messages
+
+### 6. Progress Tracking
+
+**Web Interface:**
+
+- Real-time progress bar
+- Status updates per email
+- Success/failure counts
+
+**CLI Interface:**
+
+- Per-email status messages
+- Batch progress indicators
+- Final summary statistics
+
+---
+
+## Examples
+
+### Example 1: Simple Job Application
+
+**CLI:**
+
+\`\`\`
+🤖 Agent> Send a mail to microsoft with subject 'Software Engineer Application' and body 'I am interested in the Software Engineer position at Microsoft...'
+\`\`\`
+
+**Web:**
+
+1. Enter prompt: \`Send a mail to microsoft\`
+2. Subject: \`Software Engineer Application\`
+3. Body: \`I am interested...\`
+4. Upload: \`resume.pdf\`
+5. Click Send
+
+**Result:**
+
+- Finds 6 Microsoft emails
+- Sends personalized email to each
+- Attaches resume
+- Logs all activities
+
+### Example 2: Bulk Application to Multiple Companies
+
+**CLI:**
+
+\`\`\`
+🤖 Agent> Send email to google
+[Enter body when prompted]
+END
+🤖 Agent> Send email to amazon
+[Enter body when prompted]
+END
+\`\`\`
+
+**Web:**
+
+- Repeat process for each company
+- Each company's emails found automatically
+- Same body/attachments used
+
+### Example 3: Custom Email with Multiple Attachments
+
+**CLI:**
+
+\`\`\`
+🤖 Agent> Send mail to apple with subject 'ML Engineer Position' and attachments resume.pdf cover_letter.pdf portfolio.pdf
+\`\`\`
+
+**Web:**
+
+1. Prompt: \`Send mail to apple\`
+2. Subject: \`ML Engineer Position\`
+3. Upload: \`resume.pdf\`, \`cover_letter.pdf\`, \`portfolio.pdf\`
+4. Send
+
+### Example 4: Finding Company Emails
+
+**CLI:**
+
+\`\`\`
+🤖 Agent> list companies
+\`\`\`
+
+**Output:**
+
+\`\`\`
+📋 Found 6388 companies in email database:
+
+  • Microsoft
+  • Google
+  • Amazon
+  • Apple
+  ... and 6384 more
+\`\`\`
+
+---
+
+## Technical Details
 
 ### Prompt Parsing Algorithm
 
-The agent uses multiple regex patterns to extract information:
-- Company name extraction from various phrasings
-- Subject line detection
-- Attachment identification
-- Body text extraction
+\`\`\`python
+def extract_company_name(prompt: str) -> Optional[str]:
+    patterns = [
+        r"(?:all\\s+)?([a-zA-Z0-9]+)\\s+(?:mails?|emails?)",
+        r"to\\s+(?:all\\s+)?([a-zA-Z0-9]+)",
+        r"send\\s+(?:a\\s+)?(?:mail|email)\\s+to\\s+([a-zA-Z0-9]+)",
+        # ... more patterns
+    ]
+    # Match patterns and extract company name
+\`\`\`
 
 ### Company Matching Algorithm
 
-1. Extract domain from email: email.split("@")[1]
-2. Extract main domain: domain.split(".")[0]
-3. Compare: main_domain.lower() == company_name.lower()
-4. Filter: Skip personal emails (gmail.com, outlook.com, etc.)
+\`\`\`python
+def find_company_emails(company_name: str, all_emails: List[str]) -> List[str]:
+    for email in all_emails:
+        domain = email.split("@")[1].lower()
+        domain_parts = domain.split(".")
+        main_domain = domain_parts[0]
+        
+        if main_domain == company_name.lower():
+            matching_emails.append(email)
+    return matching_emails
+\`\`\`
 
-### Email Composition
+### Email Sending Process
 
-The agent creates a MIME (Multipurpose Internet Mail Extensions) message with:
-- Headers (To, From, Subject)
-- Body as MIMEText
-- Attachments as MIMEBase parts
-- Base64 encoding for Gmail API
+1. **Message Creation**
 
-### Gmail API Integration
+   \`\`\`python
+   message = MIMEMultipart()
+   message["To"] = recipient_email
+   message["Subject"] = subject
+   message.attach(MIMEText(body, "plain"))
+   # Add attachments
+   \`\`\`
 
-Uses OAuth2 flow for secure authentication:
-1. Check if token.json exists
-2. If expired, refresh token
-3. If invalid, start OAuth flow
-4. Build Gmail API service object
-5. Send emails via API
+2. **Encoding**
 
-## Challenges & Solutions
+   \`\`\`python
+   raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+   \`\`\`
 
-### Challenge: Natural Language Understanding
+3. **Sending**
 
-**Problem**: Users might phrase requests in many different ways.
+   \`\`\`python
+   service.users().messages().send(
+       userId="me",
+       body={"raw": raw_message}
+   ).execute()
+   \`\`\`
 
-**Solution**: Multiple regex patterns to match different phrasings, case-insensitive matching, and fallback to manual input if extraction fails.
+### Session State Management (Web Interface)
 
-### Challenge: Gmail API Rate Limits
+\`\`\`python
+# Initialize
+st.session_state.email_preview_data = None
+st.session_state.sending_emails = False
 
-**Problem**: Gmail API has rate limits (250 quota units per user per second).
+# Store preview
+st.session_state.email_preview_data = {
+    'company_name': company_name,
+    'company_emails': company_emails,
+    'subject': subject,
+    'body': body,
+    'attachment_paths': attachment_paths
+}
 
-**Solution**: Batch processing with delays, automatic retry with longer delays for rate limit errors (429), and tracking sent emails to avoid duplicates.
+# Trigger sending
+if confirm:
+    st.session_state.sending_emails = True
+    st.rerun()
+\`\`\`
 
-### Challenge: Email Delivery Failures
+---
 
-**Problem**: Some emails might fail due to invalid addresses or mailbox issues.
+## Troubleshooting
 
-**Solution**: Detect delivery failure errors, log to not_sent.txt with error reason, and don't retry permanent failures.
+### Issue: "No emails found for company"
 
-## Best Practices for Use
+**Possible causes:**
 
-To get the most out of the agent, users should follow these guidelines:
+- Company name doesn't match email domains
+- Company emails not in database
+- Typo in company name
 
-- **Start Small**: Test your prompts with a batch of 1–2 emails before launching a larger campaign
-- **Universal Formats**: Use PDF format for attachments as it is the most universal and professional
-- **Simple Naming**: Use simple company names (e.g., "google") rather than long legal names (e.g., "Google LLC") to improve matching accuracy
-- **Security**: Never commit your credentials.json or token.json files to version control
+**Solutions:**
 
-## Future Enhancements
+1. Check available companies: \`list companies\`
+2. Use exact company name (e.g., "microsoft" not "Microsoft Corporation")
+3. Verify emails exist in \`emails_from_excel.txt\`
 
-Potential improvements include:
-- Advanced NLP using machine learning models
-- Email templates with variable substitution
-- Scheduling capabilities for time-based sending
-- Analytics for email open rates and response tracking
-- Multi-account support
-- Database integration for better search and filtering
-- REST API endpoints for integration
-- Real-time email validation
+### Issue: "Gmail service not available"
 
-## Conclusion
+**Possible causes:**
 
-This AI Email Agent project demonstrates end-to-end agent design: perception, planning, action, verification, and memory. It solves a real-world problem (automated job applications) using modern technologies and best practices. The system combines natural language processing, API integration, web development, and comprehensive logging to create a production-ready solution that can be extended and customized for various use cases.
+- Not authenticated
+- Token expired
+- Credentials file missing
+
+**Solutions:**
+
+1. Re-authenticate (click "Authenticate with Gmail")
+2. Check \`credentials.json\` exists
+3. Delete \`token.json\` and re-authenticate
+
+### Issue: "Emails not sending after confirmation"
+
+**Possible causes:**
+
+- Gmail service not initialized
+- Rate limiting
+- Network issues
+
+**Solutions:**
+
+1. Check authentication status
+2. Verify Gmail API is enabled
+3. Check error messages in console
+4. Review \`not_sent.txt\` for delivery failures
+
+### Issue: "Wrong company emails matched"
+
+**Possible causes:**
+
+- Company name too generic
+- Matching algorithm too broad
+
+**Solutions:**
+
+1. Use specific company name
+2. Check preview before sending
+3. Verify matched emails in preview
+
+### Issue: "File upload not working"
+
+**Possible causes:**
+
+- File format not supported
+- File too large
+- Permission issues
+
+**Solutions:**
+
+1. Use supported formats: PDF, DOC, DOCX, TXT
+2. Check file size (Gmail limit: 25MB)
+3. Ensure file permissions are correct
+
+### Issue: "Streamlit not found"
+
+**Solution:**
+
+\`\`\`bash
+# Use Python module instead
+python -m streamlit run email_agent_streamlit.py
+
+# Or add to PATH
+$env:Path += ";V:\\Aviral\\job-mailer\\Scripts"
+\`\`\`
+
+---
+
+## Best Practices
+
+### 1. Company Name Usage
+
+✅ **Good:**
+
+- "microsoft"
+- "google"
+- "apple"
+
+❌ **Avoid:**
+
+- "Microsoft Corporation" (too long)
+- "MS" (too short/ambiguous)
+- "microsoft inc" (unnecessary suffix)
+
+### 2. Email Body
+
+✅ **Good:**
+
+- Clear and concise
+- Personalized when possible
+- Professional tone
+- Include relevant details
+
+❌ **Avoid:**
+
+- Generic templates
+- Too long (keep under 500 words)
+- Unprofessional language
+
+### 3. Attachments
+
+✅ **Good:**
+
+- PDF format (universal)
+- Named clearly (e.g., "John_Doe_Resume.pdf")
+- Reasonable file size (< 5MB)
+- Multiple files when needed
+
+❌ **Avoid:**
+
+- Very large files (> 10MB)
+- Unclear file names
+- Too many files (> 5)
+
+### 4. Batch Sending
+
+✅ **Good:**
+
+- Send to one company at a time
+- Review preview before sending
+- Monitor rate limits
+- Check logs regularly
+
+❌ **Avoid:**
+
+- Sending to too many companies at once
+- Ignoring error messages
+- Not reviewing previews
+
+### 5. Security
+
+✅ **Good:**
+
+- Keep \`credentials.json\` secure
+- Don't commit \`token.json\` to git
+- Use environment variables for sensitive data
+- Review sent emails regularly
+
+❌ **Avoid:**
+
+- Sharing credentials
+- Committing secrets to version control
+- Using on untrusted networks
+
+### 6. Testing
+
+✅ **Good:**
+
+- Test with small batches first
+- Verify email format before bulk sending
+- Check preview carefully
+- Monitor first few sends
+
+❌ **Avoid:**
+
+- Sending to hundreds without testing
+- Not checking preview
+- Ignoring error messages
+
+---
+
+## Advanced Usage
+
+### Custom Email Templates
+
+Create templates in your email body:
+
+\`\`\`python
+body = """
+Dear Hiring Manager,
+
+I am writing to apply for the {position} role at {company}.
+
+[Your content here]
+
+Best regards,
+
+{your_name}
+"""
+\`\`\`
+
+### Batch Processing
+
+Process multiple companies:
+
+\`\`\`python
+companies = ["microsoft", "google", "amazon"]
+
+for company in companies:
+    # Use agent for each company
+    pass
+\`\`\`
+
+### Integration with Other Tools
+
+The agent can be integrated with:
+
+- Job board APIs
+- CRM systems
+- Email marketing platforms
+- Analytics tools
+
+---
+
+## API Reference
+
+### Main Functions
+
+#### \`extract_company_name(prompt: str) -> Optional[str]\`
+
+Extracts company name from natural language prompt.
+
+#### \`find_company_emails(company_name: str, all_emails: List[str]) -> List[str]\`
+
+Finds all emails associated with a company.
+
+#### \`send_emails(service, emails: List[str], subject: str, body: str, attachment_paths: List[str]) -> Tuple[int, int]\`
+
+Sends emails to list of recipients. Returns (sent_count, failed_count).
+
+#### \`get_gmail_service() -> Service\`
+
+Authenticates and returns Gmail API service object.
+
+---
+
+## FAQ
+
+**Q: Can I send to personal emails?**
+
+A: No, the agent filters out personal email domains (gmail.com, outlook.com, etc.) to focus on company emails only.
+
+**Q: How many emails can I send?**
+
+A: Gmail has daily sending limits (typically 500-2000 per day). The agent respects these limits.
+
+**Q: Can I customize the email format?**
+
+A: Yes, you can customize subject and body. The agent uses plain text format.
+
+**Q: What if I make a mistake?**
+
+A: Always review the preview before sending. Once sent, emails cannot be unsent, but you can track them in logs.
+
+**Q: Can I use this for spam?**
+
+A: No. This tool is intended for legitimate business communications. Follow email marketing laws (CAN-SPAM, GDPR).
+
+**Q: How do I update the email database?**
+
+A: Simply edit \`emails_from_excel.txt\` and add/remove emails (one per line).
+
+---
+
+## Support & Contributing
+
+### Getting Help
+
+1. Check this documentation
+2. Review error messages
+3. Check log files for details
+4. Review troubleshooting section
+
+### Contributing
+
+To improve the agent:
+
+1. Fork the repository
+2. Make changes
+3. Test thoroughly
+4. Submit pull request
+
+---
+
+## License & Disclaimer
+
+This tool is provided as-is for personal and business use. Users are responsible for:
+
+- Complying with email marketing laws
+- Respecting recipient privacy
+- Following Gmail Terms of Service
+- Using the tool ethically
+
+**Disclaimer:** The authors are not responsible for misuse of this tool or any consequences arising from its use.
+
+---
+
+## Version History
+
+- **v1.0** (2026-01-23): Initial release
+  - CLI interface
+  - Web interface (Streamlit)
+  - Natural language processing
+  - Gmail API integration
+  - Email tracking and logging
+
+---
+
+**Last Updated:** January 23, 2026
+
+**Documentation Version:** 1.0
+
+---
+
+*For questions or issues, please refer to the troubleshooting section or check the log files for detailed error information.*
     `.trim(),
   },
   "autonomous-financial-analysis-trading-agent": {
@@ -173,39 +1000,74 @@ This AI Email Agent project demonstrates end-to-end agent design: perception, pl
     date: "2025",
     image: "/finance.png",
     content: `
-# Financial Analysis & Trading Agent - Comprehensive Guide
+# Financial Analysis & Trading Agent
 
-## Introduction & Project Overview
+# Complete Project Documentation
 
-### What Is This Project?
+# Architecture, System Design & Code Execution
 
-This is an AI-powered autonomous trading agent that:
+================================================================================
 
-- Analyzes stock market data using Large Language Models (LLMs)
-- Builds trading strategies based on market sentiment
+## TABLE OF CONTENTS
+
+================
+
+1. Project Overview
+2. System Architecture
+3. Component Architecture
+4. Data Flow & Execution Flow
+5. Technology Stack
+6. Detailed Component Breakdown
+7. Code Execution Flow
+8. Deployment Architecture
+9. Key Features & Capabilities
+10. Future Enhancements
+11. System Design Principles
+12. Data Structures
+13. API Integrations
+14. Security Considerations
+15. Troubleshooting Guide
+16. Conclusion
+
+================================================================================
+
+## 1. PROJECT OVERVIEW
+
+================================================================================
+
+**PROJECT NAME:** Financial Analysis & Trading Agent
+
+**TYPE:** AI-Powered Trading System
+
+**DEPLOYMENT:** Streamlit Web Application (Cloud-Ready)
+
+**LANGUAGE:** Python 3.11+
+
+**FRAMEWORK:** LangGraph (Stateful Agent Workflows)
+
+**PURPOSE:**
+
+--------
+
+An intelligent AI-powered trading agent that:
+
+- Analyzes market data using LLM (Groq)
+- Builds trading strategies automatically
 - Backtests strategies on historical data
-- Executes paper trades (simulated trading with real market prices)
-- Self-improves by learning from performance
+- Executes paper trades via Alpaca API
+- Tracks performance and learns from results
 
-### Why Was It Created?
+**KEY CAPABILITIES:**
 
-The goal is to demonstrate how AI agents can be used for financial analysis and automated trading. This project combines:
+-----------------
 
-- Modern AI/LLM capabilities for market analysis
-- LangGraph for building stateful agent workflows
-- Real market data integration
-- Risk-free paper trading for testing
-
-### Key Features
-
-✓ AI-Powered Market Analysis using free/open-source LLMs
-✓ LangGraph-Based Workflow (7 intelligent nodes)
-✓ Real-Time Market Data from Alpaca API
-✓ Backtesting Engine for strategy validation
-✓ Paper Trading (risk-free simulation)
-✓ Beautiful CLI Interface with Rich library
-✓ Multi-LLM Support (Ollama, Hugging Face, Groq, OpenAI)
-✓ Self-Improvement Capabilities
+✓ Real-time market data fetching (Alpaca API + yfinance fallback)
+✓ AI-powered market analysis (Groq LLM)
+✓ Automated strategy generation
+✓ Historical backtesting
+✓ Paper trading execution
+✓ Performance tracking and metrics
+✓ Self-improvement suggestions
 
 ## Requirements & Technology Stack
 
@@ -1607,21 +2469,21 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
   return (
     <main className="min-h-screen">
-      <Background />
       <Navigation />
-      <article className="pt-32 pb-20 px-6">
-        <div className="max-w-4xl mx-auto">
+      <article className="pt-36 pb-24 px-6 md:px-12">
+        <div className="max-w-3xl mx-auto">
           <Link
-            href="/#blogs"
-            className="text-white/80 hover:text-white mb-8 inline-block transition-colors"
+            href="/#journal"
+            data-hover
+            className="text-muted hover:text-foreground mb-10 inline-flex items-center gap-2 transition-colors"
           >
-            ← Back to Blogs
+            ← Back to Journal
           </Link>
-          
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+
+          <h1 className="display text-4xl md:text-6xl mb-4 text-foreground">
             {post.title}
           </h1>
-          <p className="text-white/60 text-sm mb-4">{post.date}</p>
+          <p className="text-muted text-sm mb-4">{post.date}</p>
           
           {params.slug === "ai-email-agent-autonomous-outreach-system" && (
             <div className="flex items-center gap-4 mb-8">

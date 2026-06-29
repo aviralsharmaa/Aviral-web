@@ -1,97 +1,113 @@
 "use client";
 
 import Image from "next/image";
-import { Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RevealWords } from "./Reveal";
+import Magnetic from "./Magnetic";
+
+const socials = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/aviral31/" },
+  { label: "GitHub", href: "https://github.com/aviralsharmaa" },
+  {
+    label: "Résumé",
+    href: "https://drive.google.com/file/d/1d9D74cI4rLI-iI0AC2L9tImxGyWf-Ify/view?usp=sharing",
+  },
+];
 
 export default function Contact() {
+  const [now, setNow] = useState("");
+
+  useEffect(() => {
+    const fmt = () =>
+      new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Kolkata",
+      });
+    setNow(fmt());
+    const id = setInterval(() => setNow(fmt()), 1000 * 30);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section
       id="contact"
-      className="py-16 px-6"
+      className="relative flex min-h-screen flex-col justify-between pt-24"
     >
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-12">
-          <p className="text-2xl md:text-3xl font-medium text-white/90 mb-4 italic">
-            "All our dreams can come true if we have the courage to pursue them."
-          </p>
-          <p className="text-white/70">— Walt Disney</p>
-        </div>
+      <div className="px-6 md:px-12">
+        <p className="mb-8 text-sm uppercase tracking-tighter text-muted">
+          ( Contact )
+        </p>
+        <h2 className="display text-[13vw] leading-[0.9] tracking-tightest md:text-[10vw]">
+          <RevealWords text="Let's build" />
+          <span className="block">
+            <RevealWords text="something" delay={0.1} />{" "}
+            <span className="font-serif italic text-accent">smart.</span>
+          </span>
+        </h2>
 
-        <div className="mt-16">
-          <p className="text-lg text-white/80 mb-6">
-            If you'd like to get in touch, you can email me or schedule a meeting.
-          </p>
-          
-          {/* Cal.com Booking Button */}
-          <div className="mb-8">
+        <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-center">
+          <Magnetic strength={0.3}>
+            <a
+              href="mailto:aviralsharma5531@gmail.com"
+              data-hover
+              className="group inline-flex items-center gap-4 rounded-full border border-line px-8 py-5 text-lg transition-colors hover:border-accent hover:text-accent"
+            >
+              aviralsharma5531@gmail.com
+              <span className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.3}>
             <a
               href="https://cal.com/aviral-sharma"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-black transition-colors"
+              data-hover
+              className="inline-flex items-center gap-3 rounded-full bg-accent px-8 py-5 text-lg text-background transition-transform hover:scale-[1.02]"
             >
-              <Calendar className="w-5 h-5 mr-2" />
-              Book a Meeting
+              Book a meeting
             </a>
-          </div>
-
-          <div className="space-y-4">
-            <a
-              href="mailto:aviralsharma5531@gmail.com"
-              className="text-white hover:opacity-80 transition-opacity underline"
-            >
-              aviralsharma5531@gmail.com
-            </a>
-            <div className="flex space-x-6 mt-6 items-center">
-              <a
-                href="https://www.linkedin.com/in/aviral31/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:opacity-80 transition-opacity"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="https://github.com/aviralsharmaa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:opacity-80 transition-opacity"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:opacity-80 transition-opacity flex items-center"
-              >
-                <Image
-                  src="/x.png"
-                  alt="X (Twitter)"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-20 pt-8 border-t border-white/10 text-center text-white/60 text-sm">
-          <p>© {new Date().getFullYear()} Aviral Sharma</p>
-          <p className="mt-2">
-            Last updated: {new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              timeZoneName: 'short'
-            })}
-          </p>
+          </Magnetic>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-24 border-t border-line px-6 py-8 md:px-12">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-6">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-hover
+                className="text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              >
+                {s.label}
+              </a>
+            ))}
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-hover
+              className="flex items-center text-muted transition-opacity hover:opacity-70"
+              aria-label="X (Twitter)"
+            >
+              <Image src="/x.png" alt="X" width={16} height={16} className="h-4 w-4" />
+            </a>
+          </div>
+
+          <div className="flex items-center gap-6 text-sm text-muted">
+            <span>Noida, India — {now} IST</span>
+            <span>© {new Date().getFullYear()} Aviral Sharma</span>
+          </div>
+        </div>
+      </footer>
     </section>
   );
 }
-
