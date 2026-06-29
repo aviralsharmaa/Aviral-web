@@ -40,7 +40,7 @@ export default function Preloader() {
               transition={{ delay: 0.2 }}
               className="font-serif text-lg italic text-muted md:text-2xl"
             >
-              Machine Learning Engineer
+              Full-Stack Applied AI Engineer
             </motion.span>
             <span className="display text-[18vw] leading-none tracking-tighter md:text-[12vw]">
               {count}
