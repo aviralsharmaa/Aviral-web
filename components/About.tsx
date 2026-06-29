@@ -12,24 +12,26 @@ const stats = [
 const stack = [
   "Python",
   "Go",
+  "TypeScript",
   "PyTorch",
   "LangGraph",
   "LangChain",
   "LLM Vision",
+  "RAG",
+  "LiteLLM",
   "OpenMeter",
   "Redis",
   "Postgres",
+  "MongoDB",
   "Qdrant",
-  "AWS SageMaker",
-  "MLflow",
-  "Airflow",
+  "FAISS",
+  "AWS (S3 · SageMaker)",
   "Docker",
   "Kubernetes",
-  "FAISS",
-  "Vision Transformers",
-  "RAG",
+  "MLflow",
   "Langfuse",
-  "Grafana",
+  "Next.js · React",
+  "Vision Transformers",
 ];
 
 export default function About() {
@@ -64,24 +66,26 @@ export default function About() {
               ( About )
             </p>
             <h2 className="display text-3xl leading-tight md:text-5xl">
-              <RevealWords text="I build autonomous AI systems that reason, perceive and decide at scale." />
+              <RevealWords text="I build autonomous AI agents — and the production systems that keep them reliable, governed and scalable." />
             </h2>
 
             <div className="mt-10 space-y-6 text-base text-muted md:text-lg">
               <Rise delay={0.1}>
                 <p>
-                  I'm a Machine Learning Engineer specialising in autonomous AI
-                  systems, computer vision, and production-grade MLOps. My work
-                  combines data, models, and cloud infrastructure into reliable,
-                  scalable, and self-improving systems.
+                  I'm a Full-Stack Applied AI Engineer. I design end-to-end
+                  systems that pair LLM-driven agents and computer-vision models
+                  with the backend that makes them production-grade —
+                  orchestration, usage metering, observability and MLOps.
                 </p>
               </Rise>
               <Rise delay={0.15}>
                 <p>
-                  I enjoy problems that span perception, reasoning, and
-                  decision-making — owning the complete lifecycle from
-                  research-driven model development to real-time deployment and
-                  monitoring.
+                  Recently I've built multimodal agentic pipelines on LangGraph
+                  (deterministic checks fused with LLM vision), an LLM
+                  token-metering and entitlements platform for cost governance,
+                  and retrieval-augmented document systems — owning the full
+                  lifecycle from research and modelling to real-time deployment,
+                  resilience and monitoring.
                 </p>
               </Rise>
             </div>
