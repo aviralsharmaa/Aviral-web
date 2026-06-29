@@ -5,8 +5,8 @@ import { RevealWords, Rise } from "./Reveal";
 
 const stats = [
   { value: "97.9%", label: "CV verification accuracy" },
-  { value: "200K+", label: "Images trained on" },
-  { value: "65%", label: "Latency reduced" },
+  { value: "56", label: "Compliance criteria auto-audited" },
+  { value: "65%", label: "Inference latency reduced" },
 ];
 
 const stack = [
