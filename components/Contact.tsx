@@ -43,7 +43,7 @@ export default function Contact() {
           <RevealWords text="Let's build" />
           <span className="block">
             <RevealWords text="something" delay={0.1} />{" "}
-            <span className="font-serif italic text-accent">smart.</span>
+            <span className="font-serif italic text-accent">meaningful.</span>
           </span>
         </h2>
 

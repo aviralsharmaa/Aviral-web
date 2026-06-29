@@ -115,10 +115,42 @@ export default function About() {
                   ABES Institute of Technology (ABESIT) — 2024
                 </p>
                 <p className="mt-4 max-w-xl text-muted">
-                  Published a Springer paper, “Deep Learning-Based Accurate and
-                  Efficient Human Tracking and Identification,” and served as
-                  Treasurer of the Bit-Brain Club.
+                  Focused on deep learning and computer-vision research, and
+                  served as Treasurer of the Bit-Brain Club.
                 </p>
+              </div>
+            </Rise>
+
+            {/* Publication */}
+            <Rise delay={0.1}>
+              <div className="mt-12">
+                <p className="mb-3 text-sm uppercase tracking-tighter text-muted">
+                  ( Publication )
+                </p>
+                <a
+                  href="https://link.springer.com/chapter/10.1007/978-981-96-3102-5_53"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-hover
+                  className="group block max-w-xl rounded-lg border border-line p-5 transition-colors hover:border-foreground/40"
+                >
+                  <h3 className="text-lg leading-snug text-foreground md:text-xl">
+                    Deep Learning-Based Accurate and Efficient Human Tracking
+                    and Identification
+                  </h3>
+                  <p className="mt-2 font-serif text-lg italic text-accent">
+                    Springer · 2025
+                  </p>
+                  <p className="mt-3 text-sm text-muted">
+                    DOI: 10.1007/978-981-96-3102-5_53
+                  </p>
+                  <span className="mt-3 inline-flex items-center gap-2 text-sm text-muted transition-colors group-hover:text-foreground">
+                    Read on SpringerLink
+                    <span className="transition-transform group-hover:translate-x-1">
+                      ↗
+                    </span>
+                  </span>
+                </a>
               </div>
             </Rise>
 
