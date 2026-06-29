@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Magnetic from "./Magnetic";
 import ThemeToggle from "./ThemeToggle";
@@ -35,32 +36,15 @@ export default function Navigation() {
         }`}
       >
         <a href="#home" data-hover className="group flex items-center gap-2.5">
-          {/* Monogram mark — echoes the favicon */}
-          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-line transition-colors duration-300 group-hover:border-accent">
-            <span className="absolute inset-0 origin-bottom scale-y-0 bg-accent transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100" />
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 100 100"
-              fill="none"
-              className="relative"
-            >
-              <path
-                d="M28 74 L50 26 L72 74"
-                stroke="currentColor"
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-foreground transition-colors duration-300 group-hover:text-accent-ink"
-              />
-              <path
-                d="M37 56 L63 56"
-                stroke="currentColor"
-                strokeWidth="10"
-                strokeLinecap="round"
-                className="text-accent transition-colors duration-300 group-hover:text-accent-ink"
-              />
-            </svg>
+          {/* Photo mark — grayscale, colourises on hover */}
+          <span className="relative h-9 w-9 overflow-hidden rounded-lg border border-line transition-colors duration-300 group-hover:border-accent">
+            <Image
+              src="/aviral.png"
+              alt="Aviral Sharma"
+              fill
+              sizes="36px"
+              className="object-cover object-top grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+            />
           </span>
           <span className="flex flex-col leading-none">
             <span className="text-[15px] font-semibold tracking-tight">
