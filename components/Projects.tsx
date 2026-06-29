@@ -6,7 +6,22 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { RevealWords, Rise } from "./Reveal";
 
-const projects = [
+type Project = {
+  index: string;
+  title: string;
+  subtitle: string;
+  tags: string[];
+  year: string;
+  confidential: boolean;
+  org?: string;
+  image: string | null;
+  blurb: string;
+  github: string | null;
+  demo: string | null;
+  slug: string | null;
+};
+
+const projects: Project[] = [
   {
     index: "01",
     title: "Accessibility Audit Agent",
@@ -111,8 +126,9 @@ const projects = [
     subtitle: "Anti-Counterfeiting & MLOps Platform",
     tags: ["Vision Transformers", "SageMaker", "MLOps"],
     year: "2024",
-    confidential: false,
-    image: "/website.png",
+    confidential: true,
+    org: "OneARVO Ventures",
+    image: null,
     blurb:
       "An industrial-scale CV + MLOps system for QR and copy-detection-pattern authentication — ViT and contrastive models trained on 200K+ images, with distributed training, CI/CD, drift monitoring, and a retraining feedback loop.",
     github: null,
@@ -171,7 +187,7 @@ export default function Projects() {
                     {p.confidential && (
                       <span className="mt-2 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-tighter text-accent">
                         <span className="h-1 w-1 rounded-full bg-accent" />
-                        Confidential · OnFinance AI
+                        Confidential · {p.org ?? "OnFinance AI"}
                       </span>
                     )}
                   </div>
