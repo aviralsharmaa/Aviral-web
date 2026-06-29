@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Magnetic from "./Magnetic";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { label: "Work", href: "#work" },
@@ -55,21 +56,24 @@ export default function Navigation() {
           ))}
         </nav>
 
-        <Magnetic strength={0.3}>
-          <a
-            href="https://cal.com/aviral-sharma"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-hover
-            className="group flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-foreground/40"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            Available for work
-          </a>
-        </Magnetic>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Magnetic strength={0.3}>
+            <a
+              href="https://cal.com/aviral-sharma"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-hover
+              className="group flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-foreground/40"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              <span className="hidden sm:inline">Available for work</span>
+            </a>
+          </Magnetic>
+        </div>
       </div>
     </motion.header>
   );

@@ -66,7 +66,7 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               data-hover
-              className="inline-flex items-center gap-3 rounded-full bg-accent px-8 py-5 text-lg text-background transition-transform hover:scale-[1.02]"
+              className="inline-flex items-center gap-3 rounded-full bg-accent px-8 py-5 text-lg text-accent-ink transition-transform hover:scale-[1.02]"
             >
               Book a meeting
             </a>

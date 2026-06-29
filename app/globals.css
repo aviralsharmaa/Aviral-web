@@ -2,12 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #f2f0ea;
-  --muted: #8a8780;
+/* Color tokens are stored as raw RGB channels so Tailwind opacity
+   modifiers (text-foreground/60, border-foreground/30, …) work in both
+   themes. --line and --accent-ink are kept as complete colors. */
+:root,
+:root[data-theme="dark"] {
+  --background: 10 10 10;
+  --foreground: 242 240 234;
+  --muted: 138 135 128;
+  --accent: 200 255 77;
   --line: rgba(242, 240, 234, 0.12);
-  --accent: #c8ff4d;
+  --accent-ink: #0a0a0a; /* text/icon color on top of the accent fill */
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --background: 245 244 239;
+  --foreground: 17 17 15;
+  --muted: 92 90 84;
+  --accent: 132 204 22;
+  --line: rgba(17, 17, 15, 0.14);
+  --accent-ink: #0a0a0a;
+  color-scheme: light;
 }
 
 * {
@@ -20,13 +36,14 @@ html {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
   font-family: var(--font-sans), system-ui, sans-serif;
   position: relative;
   overflow-x: hidden;
   line-height: 1.5;
   letter-spacing: -0.01em;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 /* Hide the native cursor on devices that support a custom one */
@@ -57,8 +74,8 @@ html.lenis body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: #0a0a0a;
+  background: rgb(var(--accent));
+  color: var(--accent-ink);
 }
 
 /* Thin scrollbar */

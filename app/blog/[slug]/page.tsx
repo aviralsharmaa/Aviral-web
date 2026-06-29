@@ -2491,7 +2491,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://github.com/aviralsharmaa/AI-Agent-Job"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 View on GitHub
               </a>
@@ -2499,7 +2499,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://ai-agent-job.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 Live Demo
               </a>
@@ -2512,7 +2512,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://github.com/aviralsharmaa/Trading_agent"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 View on GitHub
               </a>
@@ -2520,7 +2520,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://trading-agent-ai.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 Live Demo
               </a>
@@ -2533,7 +2533,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://github.com/aviralsharmaa/AI_research_agent"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 View on GitHub
               </a>
@@ -2541,7 +2541,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 href="https://research-agent-ai.streamlit.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/80 hover:text-white transition-colors border border-white/30 hover:border-white/60 px-4 py-2 rounded-lg text-sm"
+                className="text-foreground/80 hover:text-foreground transition-colors border border-foreground/30 hover:border-foreground/50 px-4 py-2 rounded-lg text-sm"
               >
                 Live Demo
               </a>
@@ -2555,14 +2555,14 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 alt={post.title}
                 width={1200}
                 height={800}
-                className="w-full h-auto rounded-lg border border-white/20"
+                className="w-full h-auto rounded-lg border border-line"
                 priority
               />
             </div>
           )}
           
-          <div className="prose prose-invert max-w-none">
-            <div className="text-white/80 leading-relaxed">
+          <div className="max-w-none">
+            <div className="text-foreground/80 leading-relaxed">
               {(() => {
                 const lines = post.content.split('\n');
                 const elements: JSX.Element[] = [];
@@ -2581,8 +2581,8 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                       // End of code block
                       const code = codeBlockContent.join('\n');
                       elements.push(
-                        <pre key={`code-${codeBlockKey}`} className="bg-black/50 p-4 rounded-lg border border-white/20 overflow-x-auto my-6">
-                          <code className="text-white/90 text-sm font-mono whitespace-pre">{code}</code>
+                        <pre key={`code-${codeBlockKey}`} className="bg-foreground/5 p-4 rounded-lg border border-line overflow-x-auto my-6">
+                          <code className="text-foreground/90 text-sm font-mono whitespace-pre">{code}</code>
                         </pre>
                       );
                       codeBlockContent = [];
@@ -2609,13 +2609,13 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                   }
                   
                   if (trimmed.startsWith('# ')) {
-                    elements.push(<h1 key={i} className="text-4xl font-bold text-white mt-12 mb-6 first:mt-0">{trimmed.substring(2)}</h1>);
+                    elements.push(<h1 key={i} className="text-4xl font-bold text-foreground mt-12 mb-6 first:mt-0">{trimmed.substring(2)}</h1>);
                   } else if (trimmed.startsWith('## ')) {
-                    elements.push(<h2 key={i} className="text-3xl font-bold text-white mt-10 mb-5">{trimmed.substring(3)}</h2>);
+                    elements.push(<h2 key={i} className="text-3xl font-bold text-foreground mt-10 mb-5">{trimmed.substring(3)}</h2>);
                   } else if (trimmed.startsWith('### ')) {
-                    elements.push(<h3 key={i} className="text-2xl font-semibold text-white mt-8 mb-4">{trimmed.substring(4)}</h3>);
+                    elements.push(<h3 key={i} className="text-2xl font-semibold text-foreground mt-8 mb-4">{trimmed.substring(4)}</h3>);
                   } else if (trimmed.startsWith('#### ')) {
-                    elements.push(<h4 key={i} className="text-xl font-semibold text-white mt-6 mb-3">{trimmed.substring(5)}</h4>);
+                    elements.push(<h4 key={i} className="text-xl font-semibold text-foreground mt-6 mb-3">{trimmed.substring(5)}</h4>);
                   } else if (trimmed.startsWith('- **') || trimmed.startsWith('- ')) {
                     const content = trimmed.startsWith('- **') 
                       ? trimmed.substring(2).replace(/\*\*/g, '')
@@ -2623,14 +2623,14 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                     elements.push(
                       <li key={i} className="ml-6 mb-2 list-disc">
                         {content.split('**').map((part, idx) => 
-                          idx % 2 === 1 ? <strong key={idx} className="text-white">{part}</strong> : part
+                          idx % 2 === 1 ? <strong key={idx} className="text-foreground">{part}</strong> : part
                         )}
                       </li>
                     );
                   } else if (trimmed.startsWith('**') && trimmed.endsWith('**') && !trimmed.includes('\n')) {
-                    elements.push(<p key={i} className="font-semibold text-white mt-6 mb-4">{trimmed.replace(/\*\*/g, '')}</p>);
+                    elements.push(<p key={i} className="font-semibold text-foreground mt-6 mb-4">{trimmed.replace(/\*\*/g, '')}</p>);
                   } else if (trimmed.startsWith('*') && !trimmed.startsWith('**') && !trimmed.startsWith('```')) {
-                    elements.push(<p key={i} className="text-white/60 italic mt-6 mb-4 border-l-2 border-white/20 pl-4">{trimmed.substring(1)}</p>);
+                    elements.push(<p key={i} className="text-muted italic mt-6 mb-4 border-l-2 border-line pl-4">{trimmed.substring(1)}</p>);
                   } else if (trimmed.startsWith('![')) {
                     const match = trimmed.match(/!\[([^\]]*)\]\(([^)]+)\)/);
                     if (match) {
@@ -2643,7 +2643,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                             alt={alt}
                             width={1200}
                             height={800}
-                            className="w-full h-auto rounded-lg border border-white/20"
+                            className="w-full h-auto rounded-lg border border-line"
                           />
                         </div>
                       );
@@ -2655,9 +2655,9 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                       <p key={i} className="mb-4 leading-relaxed">
                         {parts.map((part, idx) => {
                           if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={idx} className="text-white">{part.slice(2, -2)}</strong>;
+                            return <strong key={idx} className="text-foreground">{part.slice(2, -2)}</strong>;
                           } else if (part.startsWith('`') && part.endsWith('`')) {
-                            return <code key={idx} className="bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code>;
+                            return <code key={idx} className="bg-foreground/10 px-1.5 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code>;
                           }
                           return part;
                         })}
@@ -2670,8 +2670,8 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 if (inCodeBlock && codeBlockContent.length > 0) {
                   const code = codeBlockContent.join('\n');
                   elements.push(
-                    <pre key={`code-${codeBlockKey}`} className="bg-black/50 p-4 rounded-lg border border-white/20 overflow-x-auto my-6">
-                      <code className="text-white/90 text-sm font-mono whitespace-pre">{code}</code>
+                    <pre key={`code-${codeBlockKey}`} className="bg-foreground/5 p-4 rounded-lg border border-line overflow-x-auto my-6">
+                      <code className="text-foreground/90 text-sm font-mono whitespace-pre">{code}</code>
                     </pre>
                   );
                 }

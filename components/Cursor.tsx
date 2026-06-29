@@ -74,11 +74,11 @@ export default function Cursor() {
           transition:
             "width .3s ease, height .3s ease, margin .3s ease, background-color .3s",
           backgroundColor: hovering
-            ? "rgba(200,255,77,0.12)"
+            ? "rgb(var(--accent) / 0.12)"
             : "transparent",
           borderColor: hovering
-            ? "rgba(200,255,77,0.7)"
-            : "rgba(242,240,234,0.5)",
+            ? "rgb(var(--accent) / 0.7)"
+            : "rgb(var(--foreground) / 0.5)",
         }}
       />
     </div>
