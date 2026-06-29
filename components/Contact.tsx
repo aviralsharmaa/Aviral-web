@@ -103,7 +103,7 @@ export default function Contact() {
           </div>
 
           <div className="flex items-center gap-6 text-sm text-muted">
-            <span>Noida, India — {now} IST</span>
+            <span>Bangalore, India — {now} IST</span>
             <span>© {new Date().getFullYear()} Aviral Sharma</span>
           </div>
         </div>
