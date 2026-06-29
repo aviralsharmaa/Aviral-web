@@ -50,8 +50,8 @@ export default function Hero() {
           </motion.span>
         </div>
 
-        <h1 className="display text-[15vw] leading-[0.86] tracking-tightest md:text-[12.5vw]">
-          <span className="block overflow-hidden">
+        <h1 className="display text-[15vw] leading-[0.92] tracking-tightest md:text-[12.5vw]">
+          <span className="block overflow-hidden pt-[0.12em] pb-[0.24em] -mt-[0.12em] -mb-[0.24em]">
             <motion.span
               custom={0}
               variants={line}
@@ -62,7 +62,7 @@ export default function Hero() {
               Full-Stack
             </motion.span>
           </span>
-          <span className="block overflow-hidden">
+          <span className="block overflow-hidden pt-[0.12em] pb-[0.24em] -mt-[0.12em] -mb-[0.24em]">
             <motion.span
               custom={1}
               variants={line}
@@ -73,7 +73,7 @@ export default function Hero() {
               <span className="font-serif italic text-muted">Applied</span>
             </motion.span>
           </span>
-          <span className="block overflow-hidden">
+          <span className="block overflow-hidden pt-[0.12em] pb-[0.24em] -mt-[0.12em] -mb-[0.24em]">
             <motion.span
               custom={2}
               variants={line}

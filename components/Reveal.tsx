@@ -17,7 +17,10 @@ export function RevealWords({
   return (
     <span className={className}>
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom">
+        <span
+          key={i}
+          className="inline-block overflow-hidden align-bottom pt-[0.08em] pb-[0.2em] -mt-[0.08em] -mb-[0.2em]"
+        >
           <motion.span
             className="inline-block"
             initial={{ y: "110%" }}
