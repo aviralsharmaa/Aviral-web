@@ -34,12 +34,42 @@ export default function Navigation() {
           scrolled ? "py-4" : "py-6"
         }`}
       >
-        <a
-          href="#home"
-          className="group flex items-center gap-3 text-sm font-medium uppercase tracking-tighter"
-        >
-          <span className="inline-block h-2 w-2 rounded-full bg-accent transition-transform group-hover:scale-150" />
-          Aviral Sharma
+        <a href="#home" data-hover className="group flex items-center gap-2.5">
+          {/* Monogram mark — echoes the favicon */}
+          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-line transition-colors duration-300 group-hover:border-accent">
+            <span className="absolute inset-0 origin-bottom scale-y-0 bg-accent transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100" />
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 100 100"
+              fill="none"
+              className="relative"
+            >
+              <path
+                d="M28 74 L50 26 L72 74"
+                stroke="currentColor"
+                strokeWidth="10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-foreground transition-colors duration-300 group-hover:text-accent-ink"
+              />
+              <path
+                d="M37 56 L63 56"
+                stroke="currentColor"
+                strokeWidth="10"
+                strokeLinecap="round"
+                className="text-accent transition-colors duration-300 group-hover:text-accent-ink"
+              />
+            </svg>
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="text-[15px] font-semibold tracking-tight">
+              Aviral Sharma
+            </span>
+            <span className="mt-1 text-[9px] uppercase tracking-[0.22em] text-muted">
+              Applied AI Engineer
+            </span>
+          </span>
         </a>
 
         <nav className="hidden items-center gap-1 md:flex">
