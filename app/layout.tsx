@@ -20,18 +20,18 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Aviral Sharma — Machine Learning Engineer",
+  title: "Aviral Sharma — Full-Stack Applied AI Engineer",
   description:
-    "Aviral Sharma is a Machine Learning Engineer building autonomous AI systems, computer vision models, and production-grade MLOps pipelines.",
+    "Aviral Sharma is a Full-Stack Applied AI Engineer building autonomous AI systems, computer vision models, and production-grade MLOps pipelines.",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16.png", type: "image/png", sizes: "16x16" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=2", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16.png?v=2", type: "image/png", sizes: "16x16" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico?v=2",
+    apple: "/apple-touch-icon.png?v=2",
   },
 };
 
