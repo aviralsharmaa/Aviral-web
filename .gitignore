@@ -45,3 +45,7 @@ AVIRAL_CONTRIBUTIONS.md
 # stray root-level source image (public/aviral.png is the one in use)
 /aviral.png
 
+# local screenshots / scratch assets (not part of the site)
+Screenshot *.png
+/Aviral_Sharma_Resume.pdf
+

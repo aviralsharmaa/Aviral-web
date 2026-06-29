@@ -43,7 +43,7 @@ export default function Navigation() {
               alt="Aviral Sharma"
               fill
               sizes="36px"
-              className="object-cover object-top grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+              className="object-cover object-[center_28%] grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
             />
           </span>
           <span className="flex flex-col leading-none">
