@@ -36,7 +36,7 @@ const projects: Project[] = [
       "A LangGraph agent on Claude (AWS Bedrock) that turns compliance registers into versioned dashboards, sheets, decks and docs — parallel read-only subagents, exact server-side datasets and a numeric-reconciliation gate so the LLM never invents a figure. Live for every production tenant.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "building-ai-agents-fast-and-grounded",
   },
   {
     index: "02",
@@ -51,7 +51,7 @@ const projects: Project[] = [
       "Took the LLM metering and admission-control platform to production: per-org and per-agent token budgets, RPM/TPM limits, fail-open admission, per-tenant routing to self-hosted Qwen/GPT-OSS models, and cost reconciliation against the AWS Bedrock bill — with a durable, idempotent Redis outbox for usage events.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "every-llm-call-needs-a-budget",
   },
   {
     index: "03",
@@ -66,7 +66,7 @@ const projects: Project[] = [
       "A Go scheduler, FastAPI/OpenSearch feeds and Claude agents in per-run EKS Fargate sandboxes that deliver regulatory circulars, clauses and tasks into each subscribed client's database. Re-engineered failure handling (backlog replay, retry budgets, stale-if-error cache) and opened feeds to external subscribers with HMAC-derived per-client keys.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "process-once-deliver-everywhere",
   },
   {
     index: "04",
@@ -81,7 +81,7 @@ const projects: Project[] = [
       "A Kotlin / Jetpack Compose capture app (hand-rolled AWS SigV4 uploads) feeding a 14-node LangGraph agent that audits Android apps against WCAG A/AA criteria — fusing XPath rules, deterministic pixel checks, accessibility event-log parsing and Claude vision, with UI-fingerprint pre-filters to skip wasted vision calls.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "automated-accessibility-auditor",
   },
   {
     index: "05",
@@ -96,7 +96,7 @@ const projects: Project[] = [
       "Grounded agent retrieval over each tenant's documents and a regulatory library: OpenSearch full-text search, a Claude Haiku query planner, fail-closed per-user access control, and an S3 → Lambda → OpenSearch ingestion pipeline with an idempotent reconciler.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "agentic-rag-done-right",
   },
   {
     index: "06",
@@ -111,7 +111,7 @@ const projects: Project[] = [
       "A Go control plane that gives every client an isolated data plane — dedicated database, S3 bucket, scoped IAM role and search index — plus Python/Go/TypeScript tenant-routing middleware across 10 services, kept in lockstep by 58 cross-language conformance tests. Migrated production tenants with zero users locked out.",
     github: null,
     demo: null,
-    slug: null,
+    slug: "tenant-isolation-is-a-feature",
   },
   {
     index: "07",
@@ -261,7 +261,7 @@ export default function Projects() {
                   <div className="col-span-2 flex items-center justify-end gap-4 text-sm text-muted md:col-span-2">
                     <span>{p.year}</span>
                     <span className="text-xl transition-transform duration-500 group-hover:translate-x-1 group-hover:text-accent">
-                      {p.confidential ? "▪" : "↗"}
+                      {p.slug || p.github || p.demo ? "↗" : "▪"}
                     </span>
                   </div>
                 </Wrapper>

@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
+import { engineeringPosts } from "../engineering-posts";
 
 type Post = {
   title: string;
@@ -9,10 +11,12 @@ type Post = {
   image?: string;
   github?: string;
   demo?: string;
+  kind?: string;
+  summary?: string;
   content: string;
 };
 
-const blogPosts: Record<string, Post> = {
+const caseStudies: Record<string, Post> = {
   "ai-email-agent-autonomous-outreach-system": {
     title: "AI Email Agent",
     date: "2025",
@@ -107,6 +111,25 @@ Python · LangChain + LangGraph · Groq (Llama 3.3) · Sentence Transformers + F
 `.trim(),
   },
 };
+
+const blogPosts: Record<string, Post> = { ...caseStudies, ...engineeringPosts };
+
+export function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Metadata {
+  const post = blogPosts[params.slug];
+  if (!post) return {};
+  return {
+    title: `${post.title} — Aviral Sharma`,
+    description: post.summary,
+  };
+}
+
+function readingTime(md: string) {
+  return Math.max(1, Math.round(md.split(/\s+/).length / 220));
+}
 
 function renderMarkdown(md: string) {
   const lines = md.split("\n");
@@ -241,9 +264,14 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </Link>
 
           <p className="mb-3 text-sm uppercase tracking-tighter text-muted">
-            ( Case Study · {post.date} )
+            ( {post.kind ?? "Case Study"} · {post.date} · {readingTime(post.content)} min read )
           </p>
           <h1 className="display mb-6 text-4xl md:text-6xl">{post.title}</h1>
+          {post.summary && (
+            <p className="mb-10 font-serif text-xl italic leading-relaxed text-muted">
+              {post.summary}
+            </p>
+          )}
 
           {(post.github || post.demo) && (
             <div className="mb-10 flex flex-wrap items-center gap-3">
