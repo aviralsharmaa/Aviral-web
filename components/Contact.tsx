@@ -9,7 +9,7 @@ const socials = [
   { label: "GitHub", href: "https://github.com/aviralsharmaa" },
   {
     label: "Résumé",
-    href: "https://drive.google.com/file/d/13C57N0vHHzjrLKMIyM2HSZXdq26QZW3s/view?usp=sharing",
+    href: "https://drive.google.com/file/d/1_dXg-GxVNQiO05rAV7713S-LAvRPqKiR/view?usp=sharing",
   },
 ];
 

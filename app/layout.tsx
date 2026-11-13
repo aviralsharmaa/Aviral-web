@@ -28,13 +28,13 @@ export const metadata: Metadata = {
     "Aviral Sharma is a Full-Stack Applied AI Engineer building autonomous AI systems, computer vision models, and production-grade MLOps pipelines.",
   icons: {
     icon: [
-      { url: "/favicon.svg?v=2", type: "image/svg+xml" },
-      { url: "/favicon-32.png?v=2", type: "image/png", sizes: "32x32" },
-      { url: "/favicon-16.png?v=2", type: "image/png", sizes: "16x16" },
-      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=3", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16.png?v=3", type: "image/png", sizes: "16x16" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
     ],
-    shortcut: "/favicon.ico?v=2",
-    apple: "/apple-touch-icon.png?v=2",
+    shortcut: "/favicon.ico?v=3",
+    apple: "/apple-touch-icon.png?v=3",
   },
 };
 

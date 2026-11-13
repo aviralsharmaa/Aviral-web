@@ -5,20 +5,24 @@ import { RevealWords, Rise } from "./Reveal";
 
 const roles = [
   {
-    role: "Full Stack Engineer",
+    role: "Full-Stack AI Engineer",
     company: "OnFinance AI",
     location: "Bengaluru, IN",
     period: "Feb 2026 — Present",
     note: "Generative-AI compliance platform (ComplianceOS) for the BFSI sector.",
     points: [
-      "Architected an autonomous **WCAG 2.1/2.2** (Level A & AA) accessibility-audit agent — a 14-node **LangGraph** pipeline that audits Android apps across 56 success criteria by fusing deterministic pixel math (contrast, target-size), accessibility event-log parsing, and **multimodal LLM vision** (screenshot + UI hierarchy).",
-      "Scaled that agent to production: adaptive **async** concurrency (10→25 workers by load), a circuit breaker, per-node checkpoint/resume, and a fire-and-forget **S3** watcher daemon (**Docker** / **Kubernetes**) that auto-dispatches one audit per capture session.",
-      "Cut false positives with confidence gating, two-pass **LLM** verification, and hierarchy pre-filters that remove ~60% of wasted vision calls; cross-screen dedup collapses repeated defects into one canonical finding, with a per-session LLM cost ledger for **FinOps**.",
-      "Built an **LLM usage-metering & entitlements** platform — a stateless **Go 1.23** microservice bridging the compliance agents to **OpenMeter** for per-customer / per-agent / per-model token metering, quotas, RPM/TPM rate limits and billing-readiness, backed by **Postgres (pgx)**.",
-      "Engineered the metering platform for resilience: fail-open admission (a metering outage never blocks an agent run), a durable **Redis** outbox with at-least-once delivery and idempotent dedup, and **Postgres** advisory locks serializing usage across replicas — surfaced through a **React + Vite + Recharts** admin console behind **Dex/OIDC**.",
-      "Delivered the recurring regulatory Reporting & Disclosure (MIS) module — table + calendar tracking of periodic filings with due dates, frequency, owners and SPOC, scoped per business unit and regulator and traced to source circulars, backed by **MongoDB + Qdrant** semantic search.",
-      "Owned **GitOps** delivery for ComplianceOS on **EKS** — **Kustomize** overlays reconciled by **ArgoCD** across staging, UAT and prod; exposed and OIDC-secured the metering console via **ALB + ACM TLS + Dex**, with secrets pulled at runtime from **AWS Secrets Manager** (**External Secrets**) and **Namecheap DNS** pointed at the shared ALB.",
-      "Hardened and operated platform services: environment-locked metering so shared **OpenMeter + Postgres** never cross-contaminate across envs, removed the admin API from the edge (proxied in-cluster), and shipped a **RabbitMQ** checklist pipeline (poller → agent → **Bedrock** via **LiteLLM**) plus an investigation views-refresh service with health probes, spot scheduling and read-only root filesystems.",
+      "Built an AI MIS reporting workspace end-to-end — a **LangGraph** agent on **Claude Sonnet 4.6 + Haiku 4.5 (AWS Bedrock)** with tool calling over 16 compliance registers, 30+ **FastAPI** endpoints with **SSE** streaming, and a **Next.js / React** UI that generates versioned dashboards, sheets, decks and docs; launched to all production tenants.",
+      "Eliminated fabricated figures with a deterministic compute layer, a **numeric-reconciliation gate** and server-side dataset handles so the LLM never re-types values — fixing a headline KPI from 89.1% to the true 4.2%.",
+      "Cut a **28-minute report to ~40s** with parallel read-only **subagents** (fan-out 4) and a single-call aggregation API over a 12k-task register; collapsed ~1,500 downstream calls per list request into 3 batched queries.",
+      "Grounded the agent with **agentic RAG** — **OpenSearch** full-text retrieval, a Claude Haiku query planner and fail-closed per-user ACLs — and an **S3 → Lambda → OpenSearch** ingestion pipeline whose idempotent reconciler restored search over 1,546 documents.",
+      "Productionized a regulatory-feed pipeline — **Go** scheduler → **FastAPI / OpenSearch** feeds → **Claude agents** in per-run **EKS Fargate** sandboxes writing to tenant databases — and re-engineered its failure handling (oldest-first backlog replay, per-tenant backlog, bounded retries, stale-if-error cache) to **zero failed sweeps**.",
+      "Shipped an in-VPC global-ID **Lambda** (**AWS SAM**, **EventBridge**) that unblocked feed publishing, and opened feeds to external subscribers via **HMAC**-derived per-client keys with rotation.",
+      "Took the **LLM metering & admission-control** platform (**Go, PostgreSQL, OpenMeter, ClickHouse, React**) to production — RPM/TPM limits, soft/hard per-org and per-agent token budgets, fail-open admission, cost reconciliation against the Bedrock bill, and per-tenant routing that pins a bank's LLM traffic to **self-hosted Qwen / GPT-OSS** models.",
+      "Traced dropped token counts to socket exhaustion; a per-event-loop **httpx** pool cut p50 latency **3.3×** (3.64s → 1.09s) and socket churn 62% at 250 concurrent LLM calls, backed by a durable, idempotent **Redis** outbox.",
+      "Designed and built a **multi-tenant Go control plane** that gives every client an isolated data plane (dedicated **MongoDB / PostgreSQL** database, **S3** bucket, scoped **IAM** role, search index), plus **Python / Go / TypeScript** tenant-routing middleware (58 cross-language conformance tests) serving ~660k requests/week across 10 services.",
+      "Migrated production tenants off a shared MongoDB via resumable, verify-gated cut-over with **zero users locked out**; 0 cross-tenant leaks in 1,729 isolation probes; verified per-tenant backups every 6h.",
+      "Root-caused production incidents with **SigNoz / OpenTelemetry** traces and logs, removed noise that was 99% of API error spans, and audited 68 alert rules against 14 days of history.",
+      "Built a **WCAG 2.1/2.2** accessibility-audit platform — a **Kotlin / Jetpack Compose** AccessibilityService capture app (hand-rolled AWS SigV4) feeding a 14-node **LangGraph** agent with XPath rules, pixel checks and **Claude vision** over 50+ criteria.",
     ],
   },
   {

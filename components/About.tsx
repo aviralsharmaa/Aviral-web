@@ -4,9 +4,9 @@ import Image from "next/image";
 import { RevealWords, Rise } from "./Reveal";
 
 const stats = [
-  { value: "97.9%", label: "CV verification accuracy" },
-  { value: "56", label: "Compliance criteria auto-audited" },
-  { value: "65%", label: "Inference latency reduced" },
+  { value: "40s", label: "Agent report time, down from 28 min" },
+  { value: "3.3×", label: "Lower LLM-call latency at 250 concurrent" },
+  { value: "0", label: "Cross-tenant leaks in 1,729 isolation probes" },
 ];
 
 const stack = [

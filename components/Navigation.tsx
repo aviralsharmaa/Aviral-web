@@ -39,11 +39,11 @@ export default function Navigation() {
           {/* Photo mark — grayscale, colourises on hover */}
           <span className="relative h-9 w-9 overflow-hidden rounded-lg border border-line transition-colors duration-300 group-hover:border-accent">
             <Image
-              src="/aviral.png"
+              src="/aviral-avatar.png"
               alt="Aviral Sharma"
               fill
               sizes="36px"
-              className="object-cover object-[center_28%] grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+              className="object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
             />
           </span>
           <span className="flex flex-col leading-none">
