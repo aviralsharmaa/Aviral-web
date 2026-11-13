@@ -15,6 +15,7 @@ type Project = {
   confidential: boolean;
   org?: string;
   image: string | null;
+  impact: string;
   blurb: string;
   github: string | null;
   demo: string | null;
@@ -24,68 +25,118 @@ type Project = {
 const projects: Project[] = [
   {
     index: "01",
-    title: "Accessibility Audit Agent",
-    subtitle: "Autonomous WCAG 2.2 Auditor",
-    tags: ["LangGraph", "LLM Vision", "WCAG 2.2", "AWS S3", "Async @ Scale"],
+    title: "MIS AI Agent",
+    subtitle: "Multi-Agent Reporting Workspace",
+    tags: ["LangGraph", "Claude · Bedrock", "Subagents", "FastAPI · SSE", "Next.js"],
     year: "2026",
     confidential: true,
     image: null,
+    impact: "28-min report → ~40s · numbers grounded, never invented",
     blurb:
-      "A 14-node LangGraph agent auditing Android apps across 56 WCAG A/AA criteria — fusing deterministic pixel math, accessibility event-log parsing and multimodal LLM vision. Production-scaled with adaptive 10→25 worker concurrency, circuit breaker, checkpoint/resume and a Dockerized S3 watcher; ~60% fewer wasted vision calls via pre-filters and a per-session cost ledger.",
+      "A LangGraph agent on Claude (AWS Bedrock) that turns compliance registers into versioned dashboards, sheets, decks and docs — parallel read-only subagents, exact server-side datasets and a numeric-reconciliation gate so the LLM never invents a figure. Live for every production tenant.",
     github: null,
     demo: null,
     slug: null,
   },
   {
     index: "02",
-    title: "Metering & Entitlements",
-    subtitle: "LLM FinOps Platform",
-    tags: ["Go 1.23", "OpenMeter", "Postgres", "Redis Outbox", "React"],
+    title: "LLM Governance",
+    subtitle: "Metering, Budgets & Admission Control",
+    tags: ["Go", "OpenMeter", "Token Budgets", "RPM / TPM", "Self-Hosted LLMs"],
     year: "2026",
     confidential: true,
     image: null,
+    impact: "3.3× lower p50 latency at 250 concurrent LLM calls",
     blurb:
-      "A stateless Go microservice bridging compliance agents to OpenMeter for per-customer / per-agent / per-model token metering, quotas, RPM-TPM limits and billing-readiness. Resilient by design: fail-open admission, a durable Redis outbox with idempotent at-least-once delivery, and Postgres advisory locks across replicas — surfaced through a React + Vite + Recharts console behind Dex/OIDC.",
+      "Took the LLM metering and admission-control platform to production: per-org and per-agent token budgets, RPM/TPM limits, fail-open admission, per-tenant routing to self-hosted Qwen/GPT-OSS models, and cost reconciliation against the AWS Bedrock bill — with a durable, idempotent Redis outbox for usage events.",
     github: null,
     demo: null,
     slug: null,
   },
   {
     index: "03",
-    title: "Reporting & MIS",
-    subtitle: "Regulatory Disclosure Workflow",
-    tags: ["Next.js", "MongoDB", "Qdrant", "Calendar Workflow"],
+    title: "Regulatory Feed Agents",
+    subtitle: "Subscription Delivery Pipeline",
+    tags: ["Go", "OpenSearch", "Claude Agents", "EKS Fargate", "HMAC Keys"],
     year: "2026",
     confidential: true,
     image: null,
+    impact: "Circulars processed once, delivered to every client · zero failed sweeps",
     blurb:
-      "A recurring regulatory Reporting & Disclosure (MIS) module — table and calendar tracking of periodic filings with due dates, frequency, owners and SPOC, scoped per business unit and regulator and traced back to source circulars. Backed by a MongoDB + Qdrant store with semantic search and AI-agent integration.",
+      "A Go scheduler, FastAPI/OpenSearch feeds and Claude agents in per-run EKS Fargate sandboxes that deliver regulatory circulars, clauses and tasks into each subscribed client's database. Re-engineered failure handling (backlog replay, retry budgets, stale-if-error cache) and opened feeds to external subscribers with HMAC-derived per-client keys.",
     github: null,
     demo: null,
     slug: null,
   },
   {
     index: "04",
-    title: "Platform & GitOps Delivery",
-    subtitle: "ComplianceOS Cloud Infrastructure",
-    tags: ["EKS", "ArgoCD", "Kustomize", "ALB · Dex OIDC", "RabbitMQ"],
+    title: "Accessibility Audit Agent",
+    subtitle: "Autonomous WCAG 2.2 Auditor",
+    tags: ["LangGraph", "Claude Vision", "Kotlin · Compose", "WCAG 2.2", "AWS S3"],
     year: "2026",
     confidential: true,
     image: null,
+    impact: "14-node agent · 50+ WCAG criteria · ~1,700 screens audited",
     blurb:
-      "GitOps delivery for the ComplianceOS platform on EKS — Kustomize overlays reconciled by ArgoCD across staging, UAT and prod. Publicly exposed and OIDC-secured the metering console (ALB + ACM TLS + Dex, secrets via External Secrets / AWS Secrets Manager), environment-locked metering on shared OpenMeter + Postgres, and shipped a RabbitMQ checklist pipeline (poller → agent → Bedrock/LiteLLM) plus an investigation views-refresh service.",
+      "A Kotlin / Jetpack Compose capture app (hand-rolled AWS SigV4 uploads) feeding a 14-node LangGraph agent that audits Android apps against WCAG A/AA criteria — fusing XPath rules, deterministic pixel checks, accessibility event-log parsing and Claude vision, with UI-fingerprint pre-filters to skip wasted vision calls.",
     github: null,
     demo: null,
     slug: null,
   },
   {
     index: "05",
+    title: "Agentic RAG",
+    subtitle: "Grounded Enterprise Document Search",
+    tags: ["OpenSearch", "Haiku Planner", "S3 → Lambda", "Fail-Closed ACLs"],
+    year: "2026",
+    confidential: true,
+    image: null,
+    impact: "Restored search over 1,546 documents across 24 tenants",
+    blurb:
+      "Grounded agent retrieval over each tenant's documents and a regulatory library: OpenSearch full-text search, a Claude Haiku query planner, fail-closed per-user access control, and an S3 → Lambda → OpenSearch ingestion pipeline with an idempotent reconciler.",
+    github: null,
+    demo: null,
+    slug: null,
+  },
+  {
+    index: "06",
+    title: "Multi-Tenant Control Plane",
+    subtitle: "Per-Client Data Isolation",
+    tags: ["Go", "PostgreSQL", "AWS IAM · STS", "Tenant Routing", "10 Services"],
+    year: "2026",
+    confidential: true,
+    image: null,
+    impact: "0 cross-tenant leaks in 1,729 isolation probes",
+    blurb:
+      "A Go control plane that gives every client an isolated data plane — dedicated database, S3 bucket, scoped IAM role and search index — plus Python/Go/TypeScript tenant-routing middleware across 10 services, kept in lockstep by 58 cross-language conformance tests. Migrated production tenants with zero users locked out.",
+    github: null,
+    demo: null,
+    slug: null,
+  },
+  {
+    index: "07",
+    title: "Platform Reliability",
+    subtitle: "GitOps Delivery & Observability",
+    tags: ["EKS", "ArgoCD", "SigNoz", "OpenTelemetry", "Incident RCA"],
+    year: "2026",
+    confidential: true,
+    image: null,
+    impact: "Removed noise that was 99% of API error spans · 68 alert rules audited",
+    blurb:
+      "GitOps delivery on EKS (Kustomize + ArgoCD across staging, UAT and prod) and production observability on SigNoz / OpenTelemetry — root-causing incidents from traces, logs and audit trails, removing error-span noise, and auditing every alert rule against 14 days of history.",
+    github: null,
+    demo: null,
+    slug: null,
+  },
+  {
+    index: "08",
     title: "AI Email Agent",
     subtitle: "Autonomous Outreach System",
     tags: ["NLP", "Tool Orchestration", "Gmail API"],
     year: "2025",
     confidential: false,
     image: "/job-mailer.png",
+    impact: "Plain-English request → personalised, automated outreach",
     blurb:
       "An agent that turns natural-language instructions like “send my resume to Microsoft” into fully automated, personalised email actions — intent parsing, contact discovery, composition, and secure delivery with live analytics.",
     github: "https://github.com/aviralsharmaa/AI-Agent-Job",
@@ -93,13 +144,14 @@ const projects: Project[] = [
     slug: "ai-email-agent-autonomous-outreach-system",
   },
   {
-    index: "06",
+    index: "09",
     title: "Trading Agent",
     subtitle: "Autonomous Financial Analysis",
     tags: ["LangGraph", "LLM Reasoning", "Backtesting"],
     year: "2025",
     confidential: false,
     image: "/finance.png",
+    impact: "Reason → strategise → backtest → paper-trade, in one agent loop",
     blurb:
       "A self-learning, utility-based trading agent built on LangGraph: ingest market data, reason with LLMs, synthesise strategies, backtest, paper-trade, and refine through feedback — a complete risk-aware agent loop.",
     github: "https://github.com/aviralsharmaa/Trading_agent",
@@ -107,13 +159,14 @@ const projects: Project[] = [
     slug: "autonomous-financial-analysis-trading-agent",
   },
   {
-    index: "07",
+    index: "10",
     title: "AI Research Agent",
     subtitle: "Semantic Document Intelligence",
     tags: ["RAG", "FAISS", "LangChain"],
     year: "2025",
     confidential: false,
     image: "/Ai resreach.png",
+    impact: "Research papers → a source-grounded, queryable knowledge base",
     blurb:
       "A retrieval-augmented platform that turns research papers into a queryable knowledge base — embedding with Sentence Transformers, vector search over FAISS, and source-grounded answers orchestrated by LangGraph.",
     github: "https://github.com/aviralsharmaa/AI_research_agent",
@@ -121,14 +174,15 @@ const projects: Project[] = [
     slug: "ai-research-agent-semantic-document-intelligence",
   },
   {
-    index: "08",
+    index: "11",
     title: "OneARVO Vision",
     subtitle: "Anti-Counterfeiting & MLOps Platform",
     tags: ["Vision Transformers", "SageMaker", "MLOps"],
-    year: "2024",
+    year: "2025",
     confidential: true,
     org: "OneARVO Ventures",
     image: null,
+    impact: "97.9% verification accuracy on 200K+ images",
     blurb:
       "An industrial-scale CV + MLOps system for QR and copy-detection-pattern authentication — ViT and contrastive models trained on 200K+ images, with distributed training, CI/CD, drift monitoring, and a retraining feedback loop.",
     github: null,
@@ -157,7 +211,7 @@ export default function Projects() {
             <RevealWords text="Selected Work" />
           </h2>
           <span className="hidden text-sm uppercase tracking-tighter text-muted md:block">
-            ( 08 Projects )
+            ( {String(projects.length).padStart(2, "0")} Projects )
           </span>
         </div>
 
@@ -183,6 +237,9 @@ export default function Projects() {
                     </h3>
                     <p className="mt-1 font-serif text-lg italic text-muted">
                       {p.subtitle}
+                    </p>
+                    <p className="mt-2 text-sm text-foreground/80">
+                      {p.impact}
                     </p>
                     {p.confidential && (
                       <span className="mt-2 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-tighter text-accent">
